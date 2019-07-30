@@ -1,34 +1,26 @@
-import React from 'react';
-import {Button, Platform, ScrollView, StyleSheet, Text, TextInput, View,} from 'react-native';
-import {Alert} from "react-native-web";
+import React, { Component } from 'react';
+import { Button, Platform, ScrollView, StyleSheet, Text, TextInput, View, FlatList, } from 'react-native';
+import { Alert } from "react-native-web";
 
 
-export default function HomeScreen() {
+export class HomeScreen extends Component {
+    constructor() {
+        this.state = { text: '' };
 
-    this.state = {text: ''};
+    }
 
-    return (
-
-        <View style={styles.container}>
-            <ScrollView
-                style={styles.scrollViewContainer}
-                contentContainerStyle={styles.contentContainer}>
+    render() {
+        return (<View style={styles.container}>
+            <ScrollView style={styles.scrollViewContainer} contentContainerStyle={styles.contentContainer}>
                 <View style={styles.searchContainer}>
 
-                    <TextInput
-                        placeHolder="Type something!"
-                        onChangeText={(text) => this.setState({text})}
-                        value={this.state.text}
-                    />
+                    <TextInput placeHolder="Type something!" onChangeText={(text) => this.setState({ text })} value={this.state.text} />
 
                 </View>
 
                 <View>
 
-                    <Button
-                        onPress={Alert.alert("Button pressed!")}
-                        title="Search"
-                    />
+                    <Button onPress={Alert.alert("Button pressed!")} title="Search" />
 
                 </View>
 
@@ -38,12 +30,23 @@ export default function HomeScreen() {
 
                 </View>
 
+                <View>
+
+                    <FlatList
+                        data={[
+                            { key: "Test1" },
+                            { key: "Test2" },
+                            { key: "Test3" },
+                        ]}
+                    />
+
+                </View>
+
             </ScrollView>
 
 
-        </View>
-    )
-        ;
+        </View>);
+    }
 }
 
 HomeScreen.navigationOptions = {
@@ -119,7 +122,7 @@ const styles = StyleSheet.create({
         ...Platform.select({
             ios: {
                 shadowColor: 'black',
-                shadowOffset: {width: 0, height: -3},
+                shadowOffset: { width: 0, height: -3 },
                 shadowOpacity: 0.1,
                 shadowRadius: 3,
             },
