@@ -1,23 +1,17 @@
 import React, {Component} from 'react';
-import {
-    Alert,
-    FlatList,
-    Platform,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
-} from 'react-native';
+import {Alert, FlatList, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View,} from 'react-native';
 
 
 export default class HomeScreen extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {text: ''};
+        this.state = {text: '', data: undefined};
         this._onPressSearch = this._onPressSearch.bind(this);
+    }
+
+    componentDidMount() {
+        this.getCitiesListFromApiAsync();
     }
 
     _onPressSearch() {
@@ -26,28 +20,22 @@ export default class HomeScreen extends Component {
 
     }
 
-    getCitiesListFromApiAsync() {
-        return fetch("https://samples.openweathermap.org/data/2.5/find?lat=55.5&lon=37.5&cnt=10&appid=b6907d289e10d714a6e88b30761fae22.json")
-            .then((response) => response.json())
-            .then((responseJson) => {
-                return responseJson.list;
-            })
-            .catch((error) => {
-                Alert.alert("Error while loading: " + error);
-            })
+    getCitiesListFromApiAsync = async () => {
+        const fetchData = await fetch("https://samples.openweathermap.org/data/2.5/find?lat=55.5&lon=37.5&cnt=10&appid=b6907d289e10d714a6e88b30761fae22.json").then();
+        const data = await fetchData.json();
+        this.setState({data});
     }
 
     render() {
+        const {data} = this.state;
+        console.log(data, 'data');
         return (<View style={styles.container}>
-            <ScrollView style={styles.scrollViewContainer} contentContainerStyle={styles.contentContainer}>
-                <View style={styles.searchContainer}>
+            <View style={styles.searchContainer}>
 
-                    <TextInput
-                        placeholder="Type something!"
-                        onChangeText={(text) => this.setState({text})}
-                        value={this.state.text}/>
-
-                </View>
+                <TextInput
+                    placeholder="Type something!"
+                    onChangeText={(text) => this.setState({text})}
+                    value={this.state.text}/>
 
                 <TouchableOpacity
                     onPress={this._onPressSearch}>
@@ -58,18 +46,22 @@ export default class HomeScreen extends Component {
                     </View>
                 </TouchableOpacity>
 
-                <View style={styles.container}>
 
+            </View>
+
+
+            <View style={styles.container}>
+                {data && data.list ?
                     <FlatList
-                        data={this.getCitiesListFromApiAsync()}
+                        data={data.list}
                         renderItem={({item}) => <Text style={styles.item}>{item.name}</Text>}
                     />
+                    :
+                    null
+                }
 
-                </View>
 
-            </ScrollView>
-
-
+            </View>
         </View>);
     }
 }
@@ -91,7 +83,8 @@ const styles = StyleSheet.create({
     },
     searchContainer: {
         backgroundColor: '#ff0000',
-        flex: 1,
+        height: 50,
+        width: '100%',
     },
     listContainer: {
         flex: 4,
@@ -99,7 +92,7 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#ffeb21',
     },
     developmentModeText: {
         marginBottom: 20,
