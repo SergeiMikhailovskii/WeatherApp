@@ -13,7 +13,7 @@ const config = Platform.select({
 
 const Current = createStackNavigator(
   {
-    Home: HomeScreen,
+    Component: HomeScreen,
   },
   config
 );

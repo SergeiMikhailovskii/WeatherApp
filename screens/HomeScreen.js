@@ -1,12 +1,23 @@
-import React, { Component } from 'react';
-import { Button, Platform, ScrollView, StyleSheet, Text, TextInput, View, FlatList, } from 'react-native';
-import { Alert } from "react-native-web";
+import React, {Component} from 'react';
+import {
+    Alert,
+    FlatList,
+    Platform,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
+} from 'react-native';
 
 
-export class HomeScreen extends Component {
-    constructor() {
-        this.state = { text: '' };
+export default class HomeScreen extends Component {
 
+    state = {text: ''};
+
+    _onPressSearch() {
+        Alert.alert("Button pressed!")
     }
 
     render() {
@@ -14,30 +25,29 @@ export class HomeScreen extends Component {
             <ScrollView style={styles.scrollViewContainer} contentContainerStyle={styles.contentContainer}>
                 <View style={styles.searchContainer}>
 
-                    <TextInput placeHolder="Type something!" onChangeText={(text) => this.setState({ text })} value={this.state.text} />
+                    <TextInput placeHolder="Type something!" onChangeText={(text) => this.setState({text})}
+                               value={this.state.text}/>
 
                 </View>
 
-                <View>
+                <TouchableOpacity
+                    onPress={this._onPressSearch}>
+                    <View>
 
-                    <Button onPress={Alert.alert("Button pressed!")} title="Search" />
+                        <Text>Search</Text>
 
-                </View>
+                    </View>
+                </TouchableOpacity>
 
-                <View style={styles.listContainer}>
-
-                    <Text>{this.state.text}</Text>
-
-                </View>
-
-                <View>
+                <View style={styles.container}>
 
                     <FlatList
                         data={[
-                            { key: "Test1" },
-                            { key: "Test2" },
-                            { key: "Test3" },
+                            {key: 'Test1'},
+                            {key: 'Test2'},
+                            {key: 'Test3'},
                         ]}
+                        renderItem={({item}) => <Text style={styles.item}>{item.key}</Text>}
                     />
 
                 </View>
@@ -58,6 +68,11 @@ const styles = StyleSheet.create({
     scrollViewContainer: {
         flex: 1,
         backgroundColor: 'skyblue',
+    },
+    item: {
+        padding: 10,
+        fontSize: 18,
+        height: 44,
     },
     searchContainer: {
         backgroundColor: '#ff0000',
@@ -122,7 +137,7 @@ const styles = StyleSheet.create({
         ...Platform.select({
             ios: {
                 shadowColor: 'black',
-                shadowOffset: { width: 0, height: -3 },
+                shadowOffset: {width: 0, height: -3},
                 shadowOpacity: 0.1,
                 shadowRadius: 3,
             },
