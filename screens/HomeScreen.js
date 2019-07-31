@@ -14,10 +14,27 @@ import {
 
 export default class HomeScreen extends Component {
 
-    state = {text: ''};
+    constructor(props) {
+        super(props);
+        this.state = {text: ''};
+        this._onPressSearch = this._onPressSearch.bind(this);
+    }
 
     _onPressSearch() {
-        Alert.alert("Button pressed!")
+
+        Alert.alert(this.state.text)
+
+    }
+
+    getCitiesListFromApiAsync() {
+        return fetch("https://samples.openweathermap.org/data/2.5/find?lat=55.5&lon=37.5&cnt=10&appid=b6907d289e10d714a6e88b30761fae22.json")
+            .then((response) => response.json())
+            .then((responseJson) => {
+                return responseJson.list;
+            })
+            .catch((error) => {
+                Alert.alert("Error while loading: " + error);
+            })
     }
 
     render() {
@@ -25,8 +42,10 @@ export default class HomeScreen extends Component {
             <ScrollView style={styles.scrollViewContainer} contentContainerStyle={styles.contentContainer}>
                 <View style={styles.searchContainer}>
 
-                    <TextInput placeHolder="Type something!" onChangeText={(text) => this.setState({text})}
-                               value={this.state.text}/>
+                    <TextInput
+                        placeholder="Type something!"
+                        onChangeText={(text) => this.setState({text})}
+                        value={this.state.text}/>
 
                 </View>
 
@@ -42,12 +61,8 @@ export default class HomeScreen extends Component {
                 <View style={styles.container}>
 
                     <FlatList
-                        data={[
-                            {key: 'Test1'},
-                            {key: 'Test2'},
-                            {key: 'Test3'},
-                        ]}
-                        renderItem={({item}) => <Text style={styles.item}>{item.key}</Text>}
+                        data={this.getCitiesListFromApiAsync()}
+                        renderItem={({item}) => <Text style={styles.item}>{item.name}</Text>}
                     />
 
                 </View>
