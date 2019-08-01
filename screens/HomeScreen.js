@@ -1,5 +1,14 @@
-import React, {Component} from 'react';
-import {Alert, FlatList, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View,} from 'react-native';
+import React, { Component } from 'react';
+import {
+  Alert,
+  FlatList,
+  Platform,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 
 export default class HomeScreen extends Component {
@@ -24,7 +33,7 @@ export default class HomeScreen extends Component {
         const fetchData = await fetch("https://samples.openweathermap.org/data/2.5/find?lat=55.5&lon=37.5&cnt=10&appid=b6907d289e10d714a6e88b30761fae22.json").then();
         const data = await fetchData.json();
         this.setState({data});
-    }
+    };
 
     render() {
         const {data} = this.state;
