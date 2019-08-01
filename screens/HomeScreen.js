@@ -74,7 +74,12 @@ export default class HomeScreen extends Component {
                   data={data.list}
                   renderItem={({ item }) => (
                     <View>
-                      <Text style={styles.item}>{item.name}</Text>
+                      <Text style={styles.item}>
+                        {item.name}
+                        , Temp =
+                        {' '}
+                        {item.main.temp}
+                      </Text>
                       <Text style={styles.item}>{item.weather[0].description}</Text>
                       <Image
                         source={{ uri: `http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png` }}
