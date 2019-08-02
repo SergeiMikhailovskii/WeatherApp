@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
   Alert,
   FlatList,
-  Image,
   Platform,
   StyleSheet,
   Text,
@@ -10,7 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-
+import { ListItem } from 'react-native-elements';
 
 export default class HomeScreen extends Component {
   constructor(props) {
@@ -76,19 +75,14 @@ export default class HomeScreen extends Component {
                 <FlatList
                   data={data.list}
                   renderItem={({ item }) => (
-                    <View>
-                      <Text style={styles.item}>
-                        {item.name}
-                        , Temp =
-                        {' '}
-                        {item.main.temp}
-                      </Text>
-                      <Text style={styles.item}>{item.weather[0].description}</Text>
-                      <Image
-                        source={{ uri: `http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png` }}
-                        style={{ width: 100, height: 100 }}
-                      />
-                    </View>
+                    <ListItem
+                      roundAvatar
+                      title={item.name}
+                      subtitle={item.weather[0].description}
+                      leftAvatar={{
+                        source: `http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png` && { uri: `http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png` },
+                      }}
+                    />
                   )
 
                       }
