@@ -16,17 +16,20 @@ export default class HomeScreen extends Component {
   constructor(props) {
     super(props);
     this.state = { text: '', data: undefined };
-    this._onPressSearch = this._onPressSearch.bind(this);
+    this.onPressSearch = this.onPressSearch.bind(this);
   }
 
   componentDidMount() {
     this.getCitiesListFromApiAsync();
-    console.log('a');
   }
 
-  _onPressSearch() {
-    Alert.alert(this.state.text);
-  }
+  onPressSearch = async () => {
+    const cityUrl = `http://api.openweathermap.org/data/2.5/weather?q=${this.state.text}&apikey=8df903ce56f6d18245e72f380beb297d`;
+    const fetchData = await fetch(cityUrl).then();
+    const data = await fetchData.json();
+    this.setState({ data });
+    Alert.alert(data.name);
+  };
 
     getCitiesListFromApiAsync = async () => {
       const fetchData = await fetch('https://samples.openweathermap.org/data/2.5/find?lat=55.5&lon=37.5&cnt=10&appid=b6907d289e10d714a6e88b30761fae22.json').then();
@@ -37,10 +40,10 @@ export default class HomeScreen extends Component {
       } else {
         this.setState({ data });
       }
-      console.log('b');
     };
 
     render() {
+      console.log('In render');
       const { data } = this.state;
       console.log(data, 'data');
       return (
@@ -54,7 +57,7 @@ export default class HomeScreen extends Component {
             />
 
             <TouchableOpacity
-              onPress={this._onPressSearch}
+              onPress={this.onPressSearch}
             >
 
               <View>
@@ -117,9 +120,10 @@ const styles = StyleSheet.create({
     height: 44,
   },
   searchContainer: {
-    padding: 10,
+    paddingTop: 40,
+    paddingStart: 10,
     backgroundColor: '#ff0000',
-    height: 50,
+    height: 100,
     width: '100%',
   },
   listContainer: {
