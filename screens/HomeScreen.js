@@ -9,10 +9,12 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { connect } from 'react-redux';
 import { ListItem } from 'react-native-elements';
+import { listOfCitiesRequest } from '../app/actions/fetching_actions';
 
 
-export default class HomeScreen extends Component {
+class HomeScreen extends Component {
   constructor(props) {
     super(props);
     this.state = { text: '', data: undefined };
@@ -20,18 +22,19 @@ export default class HomeScreen extends Component {
   }
 
   componentDidMount() {
-    this.getCitiesListFromApiAsync();
+    const { getCities } = this.props;
+    getCities();
   }
 
   onPressSearch = async () => {
     const cityUrl = `http://api.openweathermap.org/data/2.5/weather?q=${this.state.text}&apikey=8df903ce56f6d18245e72f380beb297d`;
     const fetchData = await fetch(cityUrl).then();
-    const data = await fetchData.json();
-    this.setState({ data });
-    Alert.alert(data.name);
+    const city = await fetchData.json();
+    this.state.data = [];
+    this.state.data[0] = city;
+    console.log(this.state.data, 'DATATATTAT');
+    Alert.alert(city.name);
   };
-
-
 
    getCitiesListFromApiAsync = async () => {
      const fetchData = await fetch('http://api.openweathermap.org/data/2.5/find?lat=55.5&lon=37.5&cnt=10&appid=8df903ce56f6d18245e72f380beb297d').then();
@@ -46,6 +49,8 @@ export default class HomeScreen extends Component {
 
    render() {
      const { data } = this.state;
+     const { list } = this.props;
+     console.log(list);
      return (
        <View style={styles.container}>
          <View style={styles.searchContainer}>
@@ -71,10 +76,10 @@ export default class HomeScreen extends Component {
 
 
          <View style={styles.container}>
-           {data && data.list
+           {list && list.list
              ? (
                <FlatList
-                 data={data.list}
+                 data={list.list}
                  renderItem={({ item }) => (
                    <ListItem
                      roundAvatar
@@ -211,5 +216,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#2e78b7',
   },
-
 });
+
+const mapStateToProps = (state) => {
+  const { list } = state.fetchingReducer;
+  return { list };
+};
+
+export default connect(mapStateToProps, { getCities: listOfCitiesRequest })(HomeScreen);
