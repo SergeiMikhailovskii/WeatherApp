@@ -37,7 +37,7 @@ class HomeScreen extends Component {
   };
 
    getCitiesListFromApiAsync = async () => {
-     const fetchData = await fetch('http://api.openweathermap.org/data/2.5/find?lat=55.5&lon=37.5&cnt=10&appid=8df903ce56f6d18245e72f380beb297d').then();
+     const fetchData = await fetch('http://api.openweathermap.org/data/2.5/find?lat=53.9&lon=27.6&cnt=10&appid=8df903ce56f6d18245e72f380beb297d').then();
      const data = await fetchData.json();
 
      if (data.cod !== '200') {
@@ -223,4 +223,7 @@ const mapStateToProps = (state) => {
   return { list };
 };
 
-export default connect(mapStateToProps, { getCities: listOfCitiesRequest })(HomeScreen);
+export default connect(mapStateToProps, {
+  getCities: listOfCitiesRequest,
+  // getCityFromSearch: searchCityRequest(HomeScreen.state.text)
+})(HomeScreen);
