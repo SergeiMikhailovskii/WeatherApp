@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { ListItem } from 'react-native-elements';
 
+
 export default class HomeScreen extends Component {
   constructor(props) {
     super(props);
@@ -30,72 +31,72 @@ export default class HomeScreen extends Component {
     Alert.alert(data.name);
   };
 
-    getCitiesListFromApiAsync = async () => {
-      const fetchData = await fetch('https://samples.openweathermap.org/data/2.5/find?lat=55.5&lon=37.5&cnt=10&appid=b6907d289e10d714a6e88b30761fae22.json').then();
-      const data = await fetchData.json();
-
-      if (data.cod !== '200') {
-        Alert.alert('Loading failed');
-      } else {
-        this.setState({ data });
-      }
-    };
-
-    render() {
-      console.log('In render');
-      const { data } = this.state;
-      console.log(data, 'data');
-      return (
-        <View style={styles.container}>
-          <View style={styles.searchContainer}>
-
-            <TextInput
-              placeholder="Type something!"
-              onChangeText={text => this.setState({ text })}
-              value={this.state.text}
-            />
-
-            <TouchableOpacity
-              onPress={this.onPressSearch}
-            >
-
-              <View>
-
-                <Text>Search</Text>
-
-              </View>
-
-            </TouchableOpacity>
-          </View>
 
 
-          <View style={styles.container}>
-            {data && data.list
-              ? (
-                <FlatList
-                  data={data.list}
-                  renderItem={({ item }) => (
-                    <ListItem
-                      roundAvatar
-                      title={item.name}
-                      subtitle={item.weather[0].description}
-                      leftAvatar={{
-                        source: `http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png` && { uri: `http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png` },
-                      }}
-                    />
-                  )
+   getCitiesListFromApiAsync = async () => {
+     const fetchData = await fetch('http://api.openweathermap.org/data/2.5/find?lat=55.5&lon=37.5&cnt=10&appid=8df903ce56f6d18245e72f380beb297d').then();
+     const data = await fetchData.json();
+
+     if (data.cod !== '200') {
+       Alert.alert('Loading failed');
+     } else {
+       this.setState({ data });
+     }
+   };
+
+   render() {
+     const { data } = this.state;
+     return (
+       <View style={styles.container}>
+         <View style={styles.searchContainer}>
+
+           <TextInput
+             placeholder="Type something!"
+             onChangeText={text => this.setState({ text })}
+             value={this.state.text}
+           />
+
+           <TouchableOpacity
+             onPress={this.onPressSearch}
+           >
+
+             <View>
+
+               <Text>Search</Text>
+
+             </View>
+
+           </TouchableOpacity>
+         </View>
+
+
+         <View style={styles.container}>
+           {data && data.list
+             ? (
+               <FlatList
+                 data={data.list}
+                 renderItem={({ item }) => (
+                   <ListItem
+                     roundAvatar
+                     title={item.name}
+                     subtitle={item.weather[0].description}
+                     leftAvatar={{
+                       source: `http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png` && { uri: `http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png` },
+                     }}
+                   />
+                 )
 
                       }
-                />
-              )
-              : null
+               />
+             )
+             : null
                 }
 
 
-          </View>
-        </View>
-      );
-    }
+         </View>
+       </View>
+     );
+   }
 }
 
 HomeScreen.navigationOptions = {
