@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  ActivityIndicator,
   FlatList,
   Platform,
   StyleSheet,
@@ -16,23 +17,26 @@ import { listOfCitiesRequest, searchCityRequest } from '../app/actions/fetching_
 class HomeScreen extends Component {
   constructor(props) {
     super(props);
-    this.state = { text: '', data: undefined };
+    this.state = { text: '', isLoading: false };
     this.onPressSearch = this.onPressSearch.bind(this);
   }
 
   componentDidMount() {
+    this.state.isLoading = true;
     const { getCities } = this.props;
     getCities();
+    this.state.isLoading = false;
   }
 
   onPressSearch = async () => {
     const { getCityFromSearch } = this.props;
-    getCityFromSearch(this.state.text);
+    const { text } = this.state;
+    getCityFromSearch(text);
   };
 
   render() {
     const { list } = this.props;
-    console.log(list, "LIST");
+    const { text } = this.state;
     return (
       <View style={styles.container}>
         <View style={styles.searchContainer}>
@@ -40,7 +44,7 @@ class HomeScreen extends Component {
           <TextInput
             placeholder="Type something!"
             onChangeText={text => this.setState({ text })}
-            value={this.state.text}
+            value={text}
           />
 
           <TouchableOpacity
@@ -54,6 +58,10 @@ class HomeScreen extends Component {
             </View>
 
           </TouchableOpacity>
+        </View>
+
+        <View>
+          <ActivityIndicator animating={this.state.isLoading} size="large" color="#0000ff" />
         </View>
 
 
@@ -201,8 +209,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  const { list, isLoading } = state.fetchingReducer;
-  return { list, isLoading };
+  const { list } = state.fetchingReducer;
+  return { list };
 };
 
 export default connect(mapStateToProps, {
