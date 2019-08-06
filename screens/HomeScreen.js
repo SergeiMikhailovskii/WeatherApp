@@ -35,8 +35,7 @@ class HomeScreen extends Component {
   };
 
   render() {
-    const { list } = this.props;
-    const { text } = this.state;
+    const { list, text } = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.searchContainer}>
@@ -60,7 +59,7 @@ class HomeScreen extends Component {
           </TouchableOpacity>
         </View>
 
-        <View>
+        <View style={{ height: 50, alignItems: 'top', justifyContent: 'top' }}>
           <ActivityIndicator animating={this.state.isLoading} size="large" color="#0000ff" />
         </View>
 

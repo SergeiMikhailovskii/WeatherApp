@@ -17,7 +17,7 @@ export const listOfCitiesRequest = () => function (dispatch) {
 };
 
 export const getListOfCities = result => ({
-  type: Actions.LIST_RESPONSE,
+  type: Actions.LIST_RESPONSE_REQUEST,
   result,
 });
 
