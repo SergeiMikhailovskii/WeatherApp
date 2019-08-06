@@ -11,6 +11,8 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { ListItem } from 'react-native-elements';
+import { Navigation } from 'react-native-navigation';
+import DetailInfoScreen from './';
 import { listOfCitiesRequest, searchCityRequest } from '../app/actions/fetching_actions';
 
 
@@ -19,6 +21,7 @@ class HomeScreen extends Component {
     super(props);
     this.state = { text: '', isLoading: false };
     this.onPressSearch = this.onPressSearch.bind(this);
+    Navigation.registerComponent('DetailInfoScreen', () => DetailInfoScreen);
   }
 
   componentDidMount() {
@@ -34,6 +37,14 @@ class HomeScreen extends Component {
     getCityFromSearch(text);
   };
 
+  goToScreen = (screenName) => {
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: screenName
+      }
+    });
+  }
+
   render() {
     const { list, text } = this.props;
     return (
@@ -47,7 +58,7 @@ class HomeScreen extends Component {
           />
 
           <TouchableOpacity
-            onPress={this.onPressSearch}
+            onPress={this.goToScreen('DetailInfoScreen')}
           >
 
             <View>
