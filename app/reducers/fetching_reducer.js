@@ -2,7 +2,7 @@ import * as Actions from '../constants/action_types';
 
 const initialState = {
   list: [],
-  city: {},
+  isLoading: false,
 };
 
 const FETCHING_REDUCER = (state = initialState, action) => {
@@ -11,11 +11,13 @@ const FETCHING_REDUCER = (state = initialState, action) => {
       return {
         ...state,
         list: action.result,
+        isLoading: true,
       };
     case Actions.CITY_RESPONSE:
       return {
         ...state,
-        city: action.result,
+        list: action.result,
+        isLoading: true,
       };
     default:
       return state;

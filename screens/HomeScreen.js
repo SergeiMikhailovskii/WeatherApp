@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {
-  Alert,
   FlatList,
   Platform,
   StyleSheet,
@@ -11,7 +10,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { ListItem } from 'react-native-elements';
-import { listOfCitiesRequest } from '../app/actions/fetching_actions';
+import { listOfCitiesRequest, searchCityRequest } from '../app/actions/fetching_actions';
 
 
 class HomeScreen extends Component {
@@ -27,81 +26,64 @@ class HomeScreen extends Component {
   }
 
   onPressSearch = async () => {
-    const cityUrl = `http://api.openweathermap.org/data/2.5/weather?q=${this.state.text}&apikey=8df903ce56f6d18245e72f380beb297d`;
-    const fetchData = await fetch(cityUrl).then();
-    const city = await fetchData.json();
-    this.state.data = [];
-    this.state.data[0] = city;
-    console.log(this.state.data, 'DATATATTAT');
-    Alert.alert(city.name);
+    const { getCityFromSearch } = this.props;
+    getCityFromSearch(this.state.text);
   };
 
-   getCitiesListFromApiAsync = async () => {
-     const fetchData = await fetch('http://api.openweathermap.org/data/2.5/find?lat=53.9&lon=27.6&cnt=10&appid=8df903ce56f6d18245e72f380beb297d').then();
-     const data = await fetchData.json();
+  render() {
+    const { list } = this.props;
+    console.log(list, "LIST");
+    return (
+      <View style={styles.container}>
+        <View style={styles.searchContainer}>
 
-     if (data.cod !== '200') {
-       Alert.alert('Loading failed');
-     } else {
-       this.setState({ data });
-     }
-   };
+          <TextInput
+            placeholder="Type something!"
+            onChangeText={text => this.setState({ text })}
+            value={this.state.text}
+          />
 
-   render() {
-     const { data } = this.state;
-     const { list } = this.props;
-     console.log(list);
-     return (
-       <View style={styles.container}>
-         <View style={styles.searchContainer}>
+          <TouchableOpacity
+            onPress={this.onPressSearch}
+          >
 
-           <TextInput
-             placeholder="Type something!"
-             onChangeText={text => this.setState({ text })}
-             value={this.state.text}
-           />
+            <View>
 
-           <TouchableOpacity
-             onPress={this.onPressSearch}
-           >
+              <Text>Search</Text>
 
-             <View>
+            </View>
 
-               <Text>Search</Text>
-
-             </View>
-
-           </TouchableOpacity>
-         </View>
+          </TouchableOpacity>
+        </View>
 
 
-         <View style={styles.container}>
-           {list && list.list
-             ? (
-               <FlatList
-                 data={list.list}
-                 renderItem={({ item }) => (
-                   <ListItem
-                     roundAvatar
-                     title={item.name}
-                     subtitle={item.weather[0].description}
-                     leftAvatar={{
-                       source: `http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png` && { uri: `http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png` },
-                     }}
-                   />
-                 )
+        <View style={styles.container}>
+          {list
+            ? (
+              <FlatList
+                data={list}
+                renderItem={({ item }) => (
+                  <ListItem
+                    roundAvatar
+                    title={item.name}
+                    subtitle={item.weather[0].description}
+                    leftAvatar={{
+                      source: `http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png` && { uri: `http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png` },
+                    }}
+                  />
+                )
 
                       }
-               />
-             )
-             : null
+              />
+            )
+            : null
                 }
 
 
-         </View>
-       </View>
-     );
-   }
+        </View>
+      </View>
+    );
+  }
 }
 
 HomeScreen.navigationOptions = {
@@ -219,11 +201,11 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  const { list } = state.fetchingReducer;
-  return { list };
+  const { list, isLoading } = state.fetchingReducer;
+  return { list, isLoading };
 };
 
 export default connect(mapStateToProps, {
   getCities: listOfCitiesRequest,
-  // getCityFromSearch: searchCityRequest(HomeScreen.state.text)
+  getCityFromSearch: searchCityRequest,
 })(HomeScreen);

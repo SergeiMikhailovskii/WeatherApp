@@ -7,9 +7,11 @@ function fetchListOfCities() {
 export const listOfCitiesRequest = () => function (dispatch) {
   return fetchListOfCities()
     .then(list => list.json())
+    .then(list => list.list)
     .then((list) => {
       dispatch(getListOfCities(list));
-    }).catch((error) => {
+    })
+    .catch((error) => {
       console.log(error);
     });
 };
