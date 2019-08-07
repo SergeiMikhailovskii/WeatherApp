@@ -11,7 +11,6 @@ const FETCHING_REDUCER = (state = initialState, action) => {
     case Actions.LIST_RESPONSE_REQUEST:
       return {
         ...state,
-        // list: action.result,
         isLoading: true,
         isError: false,
       };
@@ -28,12 +27,24 @@ const FETCHING_REDUCER = (state = initialState, action) => {
         isLoading: false,
         isError: true,
       };
-    case Actions.CITY_RESPONSE:
+    case Actions.CITY_RESPONSE_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+        isError: false,
+      };
+    case Actions.CITY_RESPONSE_SUCCESS:
       return {
         ...state,
         list: [action.result],
-        isLoading: true,
+        isLoading: false,
         isError: false,
+      };
+    case Actions.CITY_RESPONSE_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
       };
     default:
       return state;

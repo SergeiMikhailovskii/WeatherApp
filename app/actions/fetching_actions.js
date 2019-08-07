@@ -29,15 +29,18 @@ function fetchCityFromSearch(city) {
 
 export const searchCityRequest = cityName => function (dispatch) {
   return fetchCityFromSearch(cityName)
+    .then(dispatch({ type: Actions.CITY_RESPONSE_REQUEST }))
     .then(city => city.json())
     .then((city) => {
       dispatch(getCityFromSearch(city));
-    }).catch((error) => {
+    })
+    .catch((error) => {
+      dispatch({ type: Actions.CITY_RESPONSE_FAIL });
       console.log(error);
     });
 };
 
 export const getCityFromSearch = result => ({
-  type: Actions.CITY_RESPONSE,
+  type: Actions.CITY_RESPONSE_SUCCESS,
   result,
 });

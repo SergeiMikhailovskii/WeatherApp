@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
   ActivityIndicator,
+  Alert,
   FlatList,
   Platform,
   StyleSheet,
@@ -37,6 +38,11 @@ class HomeScreen extends Component {
 
   render() {
     const { list, text } = this.props;
+
+    if (this.props.isError) {
+      Alert.alert('Error while loading');
+    }
+
     return (
       <View style={styles.container}>
         <View style={styles.searchContainer}>
@@ -215,8 +221,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  const { list, isLoading } = state.fetchingReducer;
-  return { list, isLoading };
+  const { list, isLoading, isError } = state.fetchingReducer;
+  return { list, isLoading, isError };
 };
 
 export default connect(mapStateToProps, {

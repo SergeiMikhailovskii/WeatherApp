@@ -32,7 +32,7 @@ Current.navigationOptions = ({ navigation }) => {
   };
 };
 
-/*Current.navigationOptions = {
+/* Current.navigationOptions = {
   tabBarLabel: 'Current',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
@@ -44,7 +44,7 @@ Current.navigationOptions = ({ navigation }) => {
       }
     />
   ),
-};*/
+}; */
 
 Current.path = '';
 
