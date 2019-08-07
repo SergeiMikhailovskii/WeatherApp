@@ -20,7 +20,19 @@ const Current = createStackNavigator(
   config
 );
 
-Current.navigationOptions = {
+Current.navigationOptions = ({ navigation }) => {
+  let tabBarVisible = true;
+  console.log('outside if block');
+  if (navigation.state.index > 0) {
+    console.log('in if block');
+    tabBarVisible = false;
+  }
+  return {
+    tabBarVisible,
+  };
+};
+
+/*Current.navigationOptions = {
   tabBarLabel: 'Current',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
@@ -32,7 +44,7 @@ Current.navigationOptions = {
       }
     />
   ),
-};
+};*/
 
 Current.path = '';
 
