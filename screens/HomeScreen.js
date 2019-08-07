@@ -76,7 +76,12 @@ class HomeScreen extends Component {
                 data={list}
                 renderItem={({ item }) => (
                   <ListItem
-                    onPress={this.onItemClick}
+                    onPress={() => {
+                      const { navigation } = this.props;
+                      navigation.navigate('Details', {
+                        itemTitle: item.name,
+                      });
+                    }}
                     roundAvatar
                     title={item.name}
                     subtitle={item.weather[0].description}

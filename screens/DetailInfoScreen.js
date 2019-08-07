@@ -1,17 +1,22 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-export default function LinksScreen() {
-  return (
-    <View styles={styles.container}>
-      <Text>New screen!</Text>
-    </View>
-  );
+export default class DetailInfoScreen extends Component {
+  static navigationOptions = ({ navigation }) => ({
+    title: navigation.getParam('itemTitle', 'Title'),
+  });
+
+  render() {
+    const { navigation } = this.props;
+    const title = navigation.getParam('itemTitle', 'Title');
+    return (
+      <View styles={styles.container}>
+        <Text>{title}</Text>
+      </View>
+    );
+  }
 }
 
-LinksScreen.navigationOptions = {
-  title: 'New screen',
-};
 
 const styles = StyleSheet.create({
   container: {
