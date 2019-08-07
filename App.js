@@ -7,6 +7,10 @@ import { createLogger } from 'redux-logger';
 import { Provider } from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
 import reducers from './app/reducers';
+import { createAppContainer, createStackNavigator } from 'react-navigation';
+import HomeScreen from './screens/HomeScreen';
+import DetailsScreen from './screens/DetailInfoScreen';
+
 
 import AppNavigator from './navigation/AppNavigator';
 
@@ -24,6 +28,19 @@ function configureStore(initialState) {
 
 const store = configureStore({});
 
+const RootStack = createStackNavigator(
+  {
+    Home: HomeScreen,
+    Details: DetailsScreen,
+  },
+  {
+    initialRouteName: 'Home',
+  }
+);
+
+const AppContainer = createAppContainer(RootStack);
+
+
 export default class App extends Component {
   state = {
 
@@ -35,6 +52,7 @@ export default class App extends Component {
         <View style={styles.container}>
           {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
           <AppNavigator />
+          <AppContainer />
         </View>
       </Provider>
     );
