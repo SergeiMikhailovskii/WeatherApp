@@ -6,18 +6,20 @@ function fetchListOfCities() {
 
 export const listOfCitiesRequest = () => function (dispatch) {
   return fetchListOfCities()
+    .then(dispatch({ type: Actions.LIST_RESPONSE_REQUEST }))
     .then(list => list.json())
     .then(list => list.list)
     .then((list) => {
       dispatch(getListOfCities(list));
     })
     .catch((error) => {
+      dispatch({ type: Actions.LIST_RESPONSE_FAIL });
       console.log(error);
     });
 };
 
 export const getListOfCities = result => ({
-  type: Actions.LIST_RESPONSE_REQUEST,
+  type: Actions.LIST_RESPONSE_SUCCESS,
   result,
 });
 

@@ -11,13 +11,14 @@ const FETCHING_REDUCER = (state = initialState, action) => {
     case Actions.LIST_RESPONSE_REQUEST:
       return {
         ...state,
-        list: action.result,
+        // list: action.result,
         isLoading: true,
         isError: false,
       };
     case Actions.LIST_RESPONSE_SUCCESS:
       return {
         ...state,
+        list: action.result,
         isLoading: false,
         isError: false,
       };

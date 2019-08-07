@@ -1,10 +1,11 @@
 import React from 'react';
 import { Platform } from 'react-native';
-import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import { createBottomTabNavigator, createStackNavigator } from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
+import DetailsScreen from '../screens/DetailInfoScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -14,6 +15,7 @@ const config = Platform.select({
 const Current = createStackNavigator(
   {
     Component: HomeScreen,
+    Details: DetailsScreen,
   },
   config
 );

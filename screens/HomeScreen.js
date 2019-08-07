@@ -17,7 +17,7 @@ import { listOfCitiesRequest, searchCityRequest } from '../app/actions/fetching_
 class HomeScreen extends Component {
   constructor(props) {
     super(props);
-    this.state = { text: '', isLoading: false };
+    this.state = { text: '' };
     this.onPressSearch = this.onPressSearch.bind(this);
   }
 
@@ -34,10 +34,6 @@ class HomeScreen extends Component {
     getCityFromSearch(text);
   };
 
-  onItemClick = () => {
-    const { navigation } = this.props;
-    navigation.navigate('Details');
-  };
 
   render() {
     const { list, text } = this.props;
@@ -65,7 +61,7 @@ class HomeScreen extends Component {
         </View>
 
         <View style={{ height: 50, alignItems: 'top', justifyContent: 'top' }}>
-          <ActivityIndicator animating={this.state.isLoading} size="large" color="#0000ff" />
+          <ActivityIndicator animating={this.props.isLoading} size="large" color="#0000ff" />
         </View>
 
 
@@ -219,8 +215,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  const { list } = state.fetchingReducer;
-  return { list };
+  const { list, isLoading } = state.fetchingReducer;
+  return { list, isLoading };
 };
 
 export default connect(mapStateToProps, {
