@@ -66,10 +66,13 @@ class HomeScreen extends Component {
           </TouchableOpacity>
         </View>
 
+{this.props.isLoading?
         <View style={{ flexDirection: 'row', justifyContent: 'space-around', padding: 10 }}>
           <ActivityIndicator animating={this.props.isLoading} size="large" color="#0000ff" />
         </View>
-
+        :
+        null
+}
 
         <View style={styles.container}>
           {list
