@@ -25,6 +25,9 @@
     ],
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "facebookScheme": "fb886698401722951",
+    "facebookAppId": "886698401722951",
+    "facebookDisplayName": "WeatherApp"
   }
 }

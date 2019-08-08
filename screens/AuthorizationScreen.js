@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import * as Facebook from 'expo-facebook';
+
 
 export default class AuthorizationScreen extends Component {
   constructor(props) {
@@ -16,6 +18,27 @@ export default class AuthorizationScreen extends Component {
       navigation.navigate('Current');
     } else {
       Alert.alert('Fill the fields!');
+    }
+  };
+
+  onPressFacebook = async () => {
+    try {
+      const {
+        type,
+        token,
+      } = await Facebook.logInWithReadPermissionsAsync('886698401722951', {
+        permissions: ['public_profile'],
+      });
+      if (type === 'success') {
+        const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
+        Alert.alert('Logged in!', `Hi ${(await response.json()).name}!`);
+        const { navigation } = this.props;
+        navigation.navigate('Current');
+      } else {
+        Alert.alert('Cancelled!');
+      }
+    } catch ({ message }) {
+      Alert.alert(`Facebook Login Error: ${message}`);
     }
   };
 
@@ -37,21 +60,28 @@ export default class AuthorizationScreen extends Component {
               placeholder="Enter password"
               onChangeText={password => this.setState({ password })}
               value={password}
-              secureTextEntry={true}
+              secureTextEntry
             />
           </View>
 
-          <TouchableOpacity style = {{paddingTop: 10 }}
+          <TouchableOpacity
+            style={{ paddingTop: 10 }}
             onPress={this.onPressSignIn}
           >
-
             <View>
-
               <Text>Sign In</Text>
-
             </View>
-
           </TouchableOpacity>
+
+          <TouchableOpacity
+            style={{ paddingTop: 10 }}
+            onPress={this.onPressFacebook}
+          >
+            <View>
+              <Text>Facebook Log In</Text>
+            </View>
+          </TouchableOpacity>
+
         </View>
       </View>
 
@@ -70,7 +100,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   authorization: {
-    height: 200,
     paddingTop: 15,
     fontSize: 14,
   },
