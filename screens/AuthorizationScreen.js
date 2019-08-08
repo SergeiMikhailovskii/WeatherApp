@@ -5,40 +5,48 @@ export default class AuthorizationScreen extends Component {
   constructor(props) {
     super(props);
     this.state = { login: '', password: '' };
-    this.onPressSearch = this.onPressSearch.bind(this);
+    this.onPressSignIn = this.onPressSignIn.bind(this);
   }
 
   onPressSignIn = () => {
-    Alert.alert(this.state.login + this.state.password)
+    const { login, password } = this.state;
+    Alert.alert(`${login} ${password}`);
+    const { navigation } = this.props;
+    navigation.navigate('Current');
   };
 
   render() {
+    const { login, password } = this.state;
     return (
-      <View styles={styles.container}>
-      <View styles={styles.authorization}>
-        <TextInput
-          placeholder="Enter login"
-          onChangeText={login => this.setState({ login })}
-            value={login}
-        />
-
-        <TextInput
-          placeholder="Enter password"
-          onChangeText={password => this.setState({ password })}
-            value={password}
-        />
-
-        <TouchableOpacity
-          onPress={this.onPressSignIn}
-        >
-
-          <View>
-
-            <Text>Search</Text>
-
+      <View style={styles.container}>
+        <View style={styles.authorization}>
+          <View style={styles.textInput}>
+            <TextInput
+              placeholder="Enter login"
+              onChangeText={login => this.setState({ login })}
+              value={login}
+            />
           </View>
 
-        </TouchableOpacity>
+          <View style={styles.textInput}>
+            <TextInput
+              placeholder="Enter password"
+              onChangeText={password => this.setState({ password })}
+              value={password}
+            />
+          </View>
+
+          <TouchableOpacity
+            onPress={this.onPressSignIn}
+          >
+
+            <View>
+
+              <Text>Sign In</Text>
+
+            </View>
+
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -58,6 +66,11 @@ const styles = StyleSheet.create({
   },
   authorization: {
     height: 200,
-    paddingTop: 50,
+    paddingTop: 15,
+    fontSize: 14,
+  },
+  textInput: {
+    height: 50,
+    paddingTop: 20,
   },
 });
