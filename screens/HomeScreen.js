@@ -96,6 +96,7 @@ class HomeScreen extends Component {
                 )
 
                       }
+                keyExtractor={(item, index) => index.toString()}
               />
             )
             : null

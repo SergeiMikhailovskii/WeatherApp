@@ -41,7 +41,7 @@ export default class AuthorizationScreen extends Component {
             />
           </View>
 
-          <TouchableOpacity
+          <TouchableOpacity style = {{paddingTop: 10 }}
             onPress={this.onPressSignIn}
           >
 
