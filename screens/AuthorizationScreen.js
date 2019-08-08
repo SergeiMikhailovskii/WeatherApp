@@ -10,9 +10,13 @@ export default class AuthorizationScreen extends Component {
 
   onPressSignIn = () => {
     const { login, password } = this.state;
-    Alert.alert(`${login} ${password}`);
-    const { navigation } = this.props;
-    navigation.navigate('Current');
+    if (login !== '' && password !== '') {
+      console.log(`${login} ${password}`);
+      const { navigation } = this.props;
+      navigation.navigate('Current');
+    } else {
+      Alert.alert('Fill the fields!');
+    }
   };
 
   render() {
