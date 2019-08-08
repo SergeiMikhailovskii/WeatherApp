@@ -37,6 +37,7 @@ export default class AuthorizationScreen extends Component {
               placeholder="Enter password"
               onChangeText={password => this.setState({ password })}
               value={password}
+              secureTextEntry={true}
             />
           </View>
 
@@ -76,5 +77,7 @@ const styles = StyleSheet.create({
   textInput: {
     height: 50,
     paddingTop: 20,
+    borderBottomColor: '#000000',
+    borderBottomWidth: 1,
   },
 });
