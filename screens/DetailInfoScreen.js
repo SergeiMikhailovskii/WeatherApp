@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, StyleSheet, View } from 'react-native';
+import { Alert, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import { detailInfoRequest } from '../app/actions/fetching_actions';
 
@@ -18,12 +18,38 @@ class DetailInfoScreen extends Component {
 
   render() {
     const { detailCityInfo } = this.props;
-    console.log(detailCityInfo, "DETAIL INFO");
-    if (detailCityInfo != null){
+    if (detailCityInfo != null) {
       Alert.alert(detailCityInfo.city.name);
     }
     return (
-      <View styles={styles.container} />
+      <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
+          {detailCityInfo
+            ? (
+              <View style={styles.textInfo}>
+                <Text>{detailCityInfo.city.name}</Text>
+              </View>
+            )
+            : null
+          }
+          {detailCityInfo
+            ? (
+              <View style={styles.textInfo}>
+                <Text>{detailCityInfo.city.country}</Text>
+              </View>
+            )
+            : null
+          }
+          {detailCityInfo
+            ? (
+              <View style={styles.textInfo}>
+                <Text>{detailCityInfo.city.population}</Text>
+              </View>
+            )
+            : null
+          }
+        </View>
+      </SafeAreaView>
     );
   }
 }
@@ -35,6 +61,10 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     backgroundColor: '#fff',
   },
+  textInfo: {
+    paddingTop: 10,
+    paddingStart: 10,
+  }
 });
 
 const mapStateToProps = (state) => {
