@@ -1,10 +1,11 @@
 import React from 'react';
 import { Platform } from 'react-native';
-import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import { createBottomTabNavigator, createStackNavigator } from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
+import DetailsScreen from '../screens/DetailInfoScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -14,11 +15,24 @@ const config = Platform.select({
 const Current = createStackNavigator(
   {
     Component: HomeScreen,
+    Details: DetailsScreen,
   },
   config
 );
 
-Current.navigationOptions = {
+Current.navigationOptions = ({ navigation }) => {
+  let tabBarVisible = true;
+  console.log('outside if block');
+  if (navigation.state.index > 0) {
+    console.log('in if block');
+    tabBarVisible = false;
+  }
+  return {
+    tabBarVisible,
+  };
+};
+
+/* Current.navigationOptions = {
   tabBarLabel: 'Current',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
@@ -30,7 +44,7 @@ Current.navigationOptions = {
       }
     />
   ),
-};
+}; */
 
 Current.path = '';
 

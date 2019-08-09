@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
   ActivityIndicator,
+  Alert,
   FlatList,
   Platform,
   StyleSheet,
@@ -17,15 +18,13 @@ import { listOfCitiesRequest, searchCityRequest } from '../app/actions/fetching_
 class HomeScreen extends Component {
   constructor(props) {
     super(props);
-    this.state = { text: '', isLoading: false };
+    this.state = { text: '' };
     this.onPressSearch = this.onPressSearch.bind(this);
   }
 
   componentDidMount() {
-    this.state.isLoading = true;
     const { getCities } = this.props;
     getCities();
-    this.state.isLoading = false;
   }
 
   onPressSearch = async () => {
@@ -34,8 +33,14 @@ class HomeScreen extends Component {
     getCityFromSearch(text);
   };
 
+
   render() {
     const { list, text } = this.props;
+
+    if (this.props.isError) {
+      Alert.alert('Error while loading');
+    }
+
     return (
       <View style={styles.container}>
         <View style={styles.searchContainer}>
@@ -59,10 +64,14 @@ class HomeScreen extends Component {
           </TouchableOpacity>
         </View>
 
-        <View style={{ height: 50, alignItems: 'top', justifyContent: 'top' }}>
-          <ActivityIndicator animating={this.state.isLoading} size="large" color="#0000ff" />
-        </View>
-
+        {this.props.isLoading
+          ? (
+            <View style={{ flexDirection: 'row', justifyContent: 'space-around', padding: 10 }}>
+              <ActivityIndicator animating={this.props.isLoading} size="large" color="#0000ff" />
+            </View>
+          )
+          : null
+}
 
         <View style={styles.container}>
           {list
@@ -71,6 +80,12 @@ class HomeScreen extends Component {
                 data={list}
                 renderItem={({ item }) => (
                   <ListItem
+                    onPress={() => {
+                      const { navigation } = this.props;
+                      navigation.navigate('Details', {
+                        itemTitle: item.name,
+                      });
+                    }}
                     roundAvatar
                     title={item.name}
                     subtitle={item.weather[0].description}
@@ -81,6 +96,7 @@ class HomeScreen extends Component {
                 )
 
                       }
+                keyExtractor={(item, index) => index.toString()}
               />
             )
             : null
@@ -208,8 +224,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  const { list } = state.fetchingReducer;
-  return { list };
+  const { list, isLoading, isError } = state.fetchingReducer;
+  return { list, isLoading, isError };
 };
 
 export default connect(mapStateToProps, {
