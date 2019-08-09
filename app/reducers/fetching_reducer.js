@@ -4,7 +4,7 @@ const initialState = {
   list: [],
   isLoading: false,
   isError: false,
-  detailCityInfo: {},
+  detailCityInfo: null,
 };
 
 const FETCHING_REDUCER = (state = initialState, action) => {

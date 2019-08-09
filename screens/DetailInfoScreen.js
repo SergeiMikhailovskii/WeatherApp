@@ -1,17 +1,29 @@
 import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Alert, StyleSheet, View } from 'react-native';
+import { connect } from 'react-redux';
+import { detailInfoRequest } from '../app/actions/fetching_actions';
 
-export default class DetailInfoScreen extends Component {
+
+class DetailInfoScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
     title: navigation.getParam('itemTitle', 'Title'),
   });
 
+  constructor(props) {
+    super(props);
+    this.state = { title: this.props.navigation.getParam('itemTitle', 'Title') };
+    const { getDetailInfo } = this.props;
+    getDetailInfo(this.state.title);
+  }
+
   render() {
-    const { navigation } = this.props;
-    const title = navigation.getParam('itemTitle', 'Title');
+    const { detailCityInfo } = this.props;
+    console.log(detailCityInfo, "DETAIL INFO");
+    if (detailCityInfo != null){
+      Alert.alert(detailCityInfo.city.name);
+    }
     return (
-      <View styles={styles.container}>
-      </View>
+      <View styles={styles.container} />
     );
   }
 }
@@ -26,5 +38,10 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  const { detailCityInfo, isLoading,  }
-}
+  const { detailCityInfo, isLoading, isError } = state.fetchingReducer;
+  return { detailCityInfo, isLoading, isError };
+};
+
+export default connect(mapStateToProps, {
+  getDetailInfo: detailInfoRequest,
+})(DetailInfoScreen);
