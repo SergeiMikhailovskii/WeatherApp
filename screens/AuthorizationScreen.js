@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import * as Facebook from 'expo-facebook';
-
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 export default class AuthorizationScreen extends Component {
   constructor(props) {
@@ -45,46 +45,47 @@ export default class AuthorizationScreen extends Component {
   render() {
     const { login, password } = this.state;
     return (
-      <View style={styles.container}>
-        <View style={styles.authorization}>
-          <View style={styles.textInput}>
-            <TextInput
-              placeholder="Enter login"
-              onChangeText={login => this.setState({ login })}
-              value={login}
-            />
-          </View>
-
-          <View style={styles.textInput}>
-            <TextInput
-              placeholder="Enter password"
-              onChangeText={password => this.setState({ password })}
-              value={password}
-              secureTextEntry
-            />
-          </View>
-
-          <TouchableOpacity
-            style={{ paddingTop: 10 }}
-            onPress={this.onPressSignIn}
-          >
-            <View>
-              <Text>Sign In</Text>
+      <KeyboardAwareScrollView style={styles.container}>
+        <View style={styles.container}>
+          <View style={styles.authorization}>
+            <View style={styles.textInput}>
+              <TextInput
+                placeholder="Enter login"
+                onChangeText={login => this.setState({ login })}
+                value={login}
+              />
             </View>
-          </TouchableOpacity>
 
-          <TouchableOpacity
-            style={{ paddingTop: 10 }}
-            onPress={this.onPressFacebook}
-          >
-            <View>
-              <Text>Facebook Log In</Text>
+            <View style={styles.textInput}>
+              <TextInput
+                placeholder="Enter password"
+                onChangeText={password => this.setState({ password })}
+                value={password}
+                secureTextEntry
+              />
             </View>
-          </TouchableOpacity>
 
+            <TouchableOpacity
+              style={{ paddingTop: 10 }}
+              onPress={this.onPressSignIn}
+            >
+              <View>
+                <Text>Sign In</Text>
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={{ paddingTop: 10 }}
+              onPress={this.onPressFacebook}
+            >
+              <View>
+                <Text>Facebook Log In</Text>
+              </View>
+            </TouchableOpacity>
+
+          </View>
         </View>
-      </View>
-
+      </KeyboardAwareScrollView>
     );
   }
 }

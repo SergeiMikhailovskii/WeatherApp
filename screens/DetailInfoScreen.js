@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
 
 export default class DetailInfoScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -11,7 +11,10 @@ export default class DetailInfoScreen extends Component {
     const title = navigation.getParam('itemTitle', 'Title');
     return (
       <View styles={styles.container}>
-        <Text>{title}</Text>
+        <Image
+          style={{ paddingTop: 10, justifyContent: 'center', alignContent: 'center' }}
+          source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
+        />
       </View>
     );
   }
