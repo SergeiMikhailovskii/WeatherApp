@@ -44,3 +44,25 @@ export const getCityFromSearch = result => ({
   type: Actions.CITY_RESPONSE_SUCCESS,
   result,
 });
+
+function fetchDetailInfo(city) {
+  return fetch(`api.openweathermap.org/data/2.5/forecast?q=${city}&apikey=8df903ce56f6d18245e72f380beb297d`);
+}
+
+export const detailInfoRequest = cityname => function (dispatch) {
+  return fetchDetailInfo(cityname)
+    .then(dispatch({ type: Actions.DETAIL_RESPONSE_REQUEST }))
+    .then(detailInfo => detailInfo.json())
+    .then((detailInfo) => {
+      dispatch(getDetailInfo(detailInfo));
+    })
+    .catch((error) => {
+      dispatch({ type: Actions.DETAIL_RESPONSE_FAIL });
+      console.log(error);
+    });
+};
+
+export const getDetailInfo = result => ({
+  type: Actions.DETAIL_RESPONSE_SUCCESS,
+  result
+});
