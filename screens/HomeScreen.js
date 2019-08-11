@@ -128,6 +128,7 @@ const styles = StyleSheet.create({
     height: 44,
   },
   searchContainer: {
+    marginTop: 10,
     paddingStart: 10,
     backgroundColor: '#ff0000',
     height: 50,

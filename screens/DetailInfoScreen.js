@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Alert, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux';
+import { BarChart, XAxis } from 'react-native-svg-charts';
+//import 'react-native-svg';
 import { detailInfoRequest } from '../app/actions/fetching_actions';
 
 
@@ -18,8 +20,12 @@ class DetailInfoScreen extends Component {
 
   render() {
     const { detailCityInfo } = this.props;
+    let tempList = [];
     if (detailCityInfo != null) {
-      Alert.alert(detailCityInfo.city.name);
+      for (var i = 0; i < detailCityInfo.list.length; i++){
+        tempList.push(detailCityInfo.list[i].main.temp);
+      }
+      console.log(tempList, "TEMP LIST");
     }
     return (
       <SafeAreaView style={styles.container}>
