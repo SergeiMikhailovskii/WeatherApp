@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Alert, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import { BarChart, XAxis } from 'react-native-svg-charts';
-//import 'react-native-svg';
+import 'react-native-svg';
 import { detailInfoRequest } from '../app/actions/fetching_actions';
 
 
@@ -35,25 +35,16 @@ class DetailInfoScreen extends Component {
               <View style={styles.textInfo}>
                 <Text>{detailCityInfo.city.name}</Text>
               </View>
-            )
-            : null
-          }
-          {detailCityInfo
-            ? (
               <View style={styles.textInfo}>
                 <Text>{detailCityInfo.city.country}</Text>
               </View>
-            )
-            : null
-          }
-          {detailCityInfo
-            ? (
               <View style={styles.textInfo}>
                 <Text>{detailCityInfo.city.population}</Text>
               </View>
             )
             : null
           }
+        
         </View>
       </SafeAreaView>
     );
