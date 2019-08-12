@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux';
-import { LineChart, Path, Grid } from 'react-native-svg-charts'
+import { Grid, LineChart, Path } from 'react-native-svg-charts';
 import 'react-native-svg';
 import { detailInfoRequest } from '../app/actions/fetching_actions';
 
@@ -13,32 +13,33 @@ class DetailInfoScreen extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { title: this.props.navigation.getParam('itemTitle', 'Title') };
-    const { getDetailInfo } = this.props;
-    getDetailInfo(this.state.title);
+    const { navigation, getDetailInfo } = this.props;
+    this.state = { title: navigation.getParam('itemTitle', 'Title') };
+    const { title } = this.state;
+    getDetailInfo(title);
   }
 
   render() {
     const { detailCityInfo } = this.props;
-    let tempList = [];
+    const tempList = [];
 
     if (detailCityInfo != null) {
-      for (var i = 0; i < detailCityInfo.list.length; i++) {
+      for (let i = 0; i < detailCityInfo.list.length; i += 1) {
         tempList.push(detailCityInfo.list[i].main.temp);
       }
-      console.log(tempList, "TEMP LIST");
+      console.log(tempList, 'TEMP LIST');
     }
 
     const Shadow = ({ line }) => (
       <Path
-        key={'shadow'}
+        key="shadow"
         y={2}
         d={line}
-        fill={'none'}
+        fill="none"
         strokeWidth={4}
-        stroke={'rgba(134, 65, 244, 0.2)'}
+        stroke="rgba(134, 65, 244, 0.2)"
       />
-    )
+    );
 
     return (
       <SafeAreaView style={styles.container}>
