@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux';
-import { Grid, LineChart, Path } from 'react-native-svg-charts';
+import { Grid, LineChart, XAxis, YAxis } from 'react-native-svg-charts';
 import 'react-native-svg';
 import { detailInfoRequest } from '../app/actions/fetching_actions';
 
@@ -30,16 +30,10 @@ class DetailInfoScreen extends Component {
       console.log(tempList, 'TEMP LIST');
     }
 
-    const Shadow = ({ line }) => (
-      <Path
-        key="shadow"
-        y={2}
-        d={line}
-        fill="none"
-        strokeWidth={4}
-        stroke="rgba(134, 65, 244, 0.2)"
-      />
-    );
+    const axesSvg = { fontSize: 10, fill: 'grey' };
+    const verticalContentInset = { top: 10, bottom: 10 };
+    const xAxisHeight = 30;
+
 
     return (
       <SafeAreaView style={styles.container}>
@@ -70,16 +64,30 @@ class DetailInfoScreen extends Component {
           }
           {detailCityInfo
             ? (
-              <View style={{ height: 200 }}>
-                <LineChart
-                  style={{ height: 200 }}
+              <View style={{ height: 200, padding: 20, flexDirection: 'row' }}>
+                <YAxis
                   data={tempList}
-                  svg={{ stroke: 'rgb(134, 65, 244)' }}
-                  contentInset={{ top: 20, bottom: 20 }}
-                >
-                  <Grid />
-                  <Shadow />
-                </LineChart>
+                  style={{ marginBottom: xAxisHeight }}
+                  contentInset={verticalContentInset}
+                  svg={axesSvg}
+                />
+                <View style={{ flex: 1, marginLeft: 10 }}>
+                  <LineChart
+                    style={{ flex: 1 }}
+                    data={tempList}
+                    contentInset={verticalContentInset}
+                    svg={{ stroke: 'rgb(134, 65, 244)' }}
+                  >
+                    <Grid />
+                  </LineChart>
+                  <XAxis
+                    style={{ marginHorizontal: -10, height: xAxisHeight }}
+                    data={tempList}
+                    formatLabel={(value, index) => index}
+                    contentInset={{ left: 10, right: 10 }}
+                    svg={axesSvg}
+                  />
+                </View>
               </View>
             )
             : null

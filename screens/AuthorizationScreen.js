@@ -53,7 +53,7 @@ export default class AuthorizationScreen extends Component {
   render() {
     const { login, password } = this.state;
     return (
-      <SafeAreaView style = {styles.container}>
+      <SafeAreaView style={styles.container}>
         <KeyboardAwareScrollView style={styles.container}>
           <View style={styles.container}>
             <View style={styles.authorization}>
@@ -62,6 +62,8 @@ export default class AuthorizationScreen extends Component {
                   placeholder="Enter login"
                   onChangeText={login => this.setState({ login })}
                   value={login}
+                  autoCapitalize="none"
+                  keyboardType="email-address"
                 />
               </View>
 
@@ -115,7 +117,7 @@ const styles = StyleSheet.create({
   textInput: {
     height: 50,
     paddingTop: 20,
-    paddingStart:10,
+    paddingStart: 10,
     paddingEnd: 10,
     marginStart: 10,
     marginEnd: 10,
