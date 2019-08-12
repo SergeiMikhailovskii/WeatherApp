@@ -4,6 +4,7 @@ const initialState = {
   list: [],
   isLoading: false,
   isError: false,
+  detailCityInfo: null,
 };
 
 const FETCHING_REDUCER = (state = initialState, action) => {
@@ -41,6 +42,25 @@ const FETCHING_REDUCER = (state = initialState, action) => {
         isError: false,
       };
     case Actions.CITY_RESPONSE_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+      };
+    case Actions.DETAIL_RESPONSE_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+        isError: false,
+      };
+    case Actions.DETAIL_RESPONSE_SUCCESS:
+      return {
+        ...state,
+        detailCityInfo: action.result,
+        isLoading: false,
+        isError: false,
+      };
+    case Actions.DETAIL_RESPONSE_FAIL:
       return {
         ...state,
         isLoading: false,

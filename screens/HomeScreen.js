@@ -4,6 +4,7 @@ import {
   Alert,
   FlatList,
   Platform,
+  SafeAreaView,
   StyleSheet,
   Text,
   TextInput,
@@ -42,6 +43,7 @@ class HomeScreen extends Component {
     }
 
     return (
+      <SafeAreaView style={styles.container}>
       <View style={styles.container}>
         <View style={styles.searchContainer}>
 
@@ -105,6 +107,7 @@ class HomeScreen extends Component {
 
         </View>
       </View>
+      </SafeAreaView>
     );
   }
 }
@@ -125,10 +128,10 @@ const styles = StyleSheet.create({
     height: 44,
   },
   searchContainer: {
-    paddingTop: 40,
+    marginTop: 10,
     paddingStart: 10,
     backgroundColor: '#ff0000',
-    height: 100,
+    height: 50,
     width: '100%',
   },
   listContainer: {
