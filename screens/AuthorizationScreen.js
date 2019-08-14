@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Alert, Image, SafeAreaView, StyleSheet, View } from 'react-native';
+import {
+  Alert, Image, SafeAreaView, StyleSheet, View
+} from 'react-native';
 import * as Facebook from 'expo-facebook';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Button, Input } from 'react-native-elements';
