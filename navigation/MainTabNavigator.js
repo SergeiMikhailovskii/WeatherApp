@@ -1,8 +1,6 @@
 import React from 'react';
 import { Platform } from 'react-native';
 import { createBottomTabNavigator, createStackNavigator } from 'react-navigation';
-
-import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import DetailsScreen from '../screens/DetailInfoScreen';
@@ -22,29 +20,13 @@ const Current = createStackNavigator(
 
 Current.navigationOptions = ({ navigation }) => {
   let tabBarVisible = true;
-  console.log('outside if block');
   if (navigation.state.index > 0) {
-    console.log('in if block');
     tabBarVisible = false;
   }
   return {
     tabBarVisible,
   };
 };
-
-/* Current.navigationOptions = {
-  tabBarLabel: 'Current',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={
-        Platform.OS === 'ios'
-          ? `ios-cloud${focused ? '' : '-outline'}`
-          : 'md-cloud'
-      }
-    />
-  ),
-}; */
 
 Current.path = '';
 
@@ -57,9 +39,6 @@ const Favorites = createStackNavigator(
 
 Favorites.navigationOptions = {
   tabBarLabel: 'Favorites',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-heart' : 'md-heart'} />
-  ),
 };
 
 Favorites.path = '';
