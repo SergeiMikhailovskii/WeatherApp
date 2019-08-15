@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { Image, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import { Grid, LineChart, XAxis, YAxis } from 'react-native-svg-charts';
 import 'react-native-svg';
@@ -78,8 +78,15 @@ class DetailInfoScreen extends Component {
                 textAlign: 'center'
               }}
               >
-                Population: {detailCityInfo.city.population}
+                Population:
+                {' '}
+                {detailCityInfo.city.population}
               </Text>
+            </View>
+            <View style={{ paddingBottom: 10 }}>
+              <Image
+                source={{ uri: `http://openweathermap.org/img/wn/${detailCityInfo.list[0].weather[0].icon}@2x.png` }}
+              />
             </View>
             <View style={{
               height: 200,
