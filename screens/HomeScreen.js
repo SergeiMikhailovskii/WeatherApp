@@ -61,7 +61,7 @@ class HomeScreen extends Component {
               containerStyle={{ flex: 1, justifyContent: 'center' }}
               icon={(
                 <Ionicons
-                  name="md-checkmark-circle"
+                  name="ios-search"
                   size={15}
                   color="white"
                 />
