@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { Image, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import { Grid, LineChart, XAxis, YAxis } from 'react-native-svg-charts';
 import 'react-native-svg';
@@ -36,63 +36,108 @@ class DetailInfoScreen extends Component {
 
 
     return (
-      <SafeAreaView style={styles.container}>
-        <View style={styles.container}>
-          {detailCityInfo
-            ? (
-              <View style={styles.textInfo}>
-                <Text>{detailCityInfo.city.name}</Text>
-              </View>
-            )
-            : null
-          }
-          {detailCityInfo
-            ? (
-              <View style={styles.textInfo}>
-                <Text>{detailCityInfo.city.country}</Text>
-              </View>
-            )
-            : null
-          }
-          {detailCityInfo
-            ? (
-              <View style={styles.textInfo}>
-                <Text>{detailCityInfo.city.population}</Text>
-              </View>
-            )
-            : null
-          }
-          {detailCityInfo
-            ? (
-              <View style={{ height: 200, padding: 20, flexDirection: 'row' }}>
-                <YAxis
+      <SafeAreaView style={{ flex: 1 }}>
+        {detailCityInfo ? (
+          <View style={styles.container}>
+            <View style={styles.textInfo}>
+              <Text style={{
+                fontSize: 25,
+                width: '100%',
+                justifyContent: 'center',
+                textAlign: 'center'
+              }}
+              >
+                {detailCityInfo.city.name}
+              </Text>
+            </View>
+            <View style={styles.textInfo}>
+              <Text style={{
+                width: '100%',
+                justifyContent: 'center',
+                textAlign: 'center'
+              }}
+              >
+                {detailCityInfo.city.country}
+              </Text>
+            </View>
+            <View style={styles.textInfo}>
+              <Text style={{
+                fontSize: 50,
+                width: '100%',
+                justifyContent: 'center',
+                textAlign: 'center'
+              }}
+              >
+                {tempList[0]}
+              </Text>
+            </View>
+            <View style={styles.textInfo}>
+              <Text style={{
+                width: '100%',
+                justifyContent: 'center',
+                textAlign: 'center'
+              }}
+              >
+                Population:
+                {' '}
+                {detailCityInfo.city.population}
+              </Text>
+            </View>
+            <View style={{ paddingBottom: 10 }}>
+              <Image
+                source={{ uri: `http://openweathermap.org/img/wn/${detailCityInfo.list[0].weather[0].icon}@2x.png` }}
+              />
+            </View>
+            <View style={{
+              height: 200,
+              padding: 20,
+              flexDirection: 'row'
+            }}
+            >
+              <YAxis
+                data={tempList}
+                style={{ marginBottom: xAxisHeight }}
+                contentInset={verticalContentInset}
+                svg={axesSvg}
+              />
+              <View style={{
+                flex: 1,
+                marginLeft: 10
+              }}
+              >
+                <LineChart
+                  style={{ flex: 1 }}
                   data={tempList}
-                  style={{ marginBottom: xAxisHeight }}
                   contentInset={verticalContentInset}
-                  svg={axesSvg}
+                  svg={{ stroke: 'rgb(134, 65, 244)' }}
+                >
+                  <Grid />
+                </LineChart>
+                <XAxis
+                  style={{
+                    marginHorizontal: -10,
+                    height: xAxisHeight
+                  }}
+                  data={tempList}
+                  formatLabel={(value, index) => index}
+                  contentInset={{
+                    left: 10,
+                    right: 10
+                  }}
+                  svg={{
+                    fill: 'black',
+                    fontSize: 8,
+                    fontWeight: 'bold',
+                    rotation: 90,
+                    originY: 30,
+                    y: 5,
+                  }}
                 />
-                <View style={{ flex: 1, marginLeft: 10 }}>
-                  <LineChart
-                    style={{ flex: 1 }}
-                    data={tempList}
-                    contentInset={verticalContentInset}
-                    svg={{ stroke: 'rgb(134, 65, 244)' }}
-                  >
-                    <Grid />
-                  </LineChart>
-                  <XAxis
-                    style={{ marginHorizontal: -10, height: xAxisHeight }}
-                    data={tempList}
-                    formatLabel={(value, index) => index}
-                    contentInset={{ left: 10, right: 10 }}
-                    svg={axesSvg}
-                  />
-                </View>
               </View>
-            )
-            : null
-          }
-        </View>
+            </View>
+          </View>
+        ) : null
+        }
       </SafeAreaView>
     );
   }
@@ -102,12 +147,11 @@ class DetailInfoScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 15,
+    padding: 16,
     backgroundColor: '#fff',
   },
   textInfo: {
-    paddingTop: 10,
-    paddingStart: 10,
+    paddingBottom: 10,
   }
 });
 

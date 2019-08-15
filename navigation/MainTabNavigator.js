@@ -1,9 +1,11 @@
 import React from 'react';
 import { Platform } from 'react-native';
 import { createBottomTabNavigator, createStackNavigator } from 'react-navigation';
+import { Ionicons } from '@expo/vector-icons';
 import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
+import MapsScreen from '../screens/MapsScreen';
 import DetailsScreen from '../screens/DetailInfoScreen';
+
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -25,27 +27,34 @@ Current.navigationOptions = ({ navigation }) => {
   }
   return {
     tabBarVisible,
+    tabBarIcon: () => (
+      <Ionicons name={Platform.OS === 'ios' ? 'ios-cloud' : 'md-cloud'} size={25} color="red" />
+    ),
+    tabBarLabel: 'Weather',
   };
 };
 
 Current.path = '';
 
-const Favorites = createStackNavigator(
+const Maps = createStackNavigator(
   {
-    Links: LinksScreen,
+    Maps: MapsScreen,
   },
   config
 );
 
-Favorites.navigationOptions = {
-  tabBarLabel: 'Favorites',
+Maps.navigationOptions = {
+  tabBarLabel: 'Maps',
+  tabBarIcon: () => (
+    <Ionicons name={Platform.OS === 'ios' ? 'ios-map' : 'md-map'} size={25} color="red" />
+  ),
 };
 
-Favorites.path = '';
+Maps.path = '';
 
 const tabNavigator = createBottomTabNavigator({
   Current,
-  Favorites,
+  Maps,
 });
 
 tabNavigator.path = '';

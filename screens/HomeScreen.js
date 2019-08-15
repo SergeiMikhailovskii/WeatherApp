@@ -6,9 +6,6 @@ import {
   Platform,
   SafeAreaView,
   StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
   View,
 } from 'react-native';
 import { Button, Input, ListItem } from 'react-native-elements';
@@ -30,9 +27,13 @@ class HomeScreen extends Component {
   }
 
   onPressSearch = async () => {
-    const { getCityFromSearch } = this.props;
+    const { getCityFromSearch, getCities } = this.props;
     const { text } = this.state;
-    getCityFromSearch(text);
+    if (text === '') {
+      getCities();
+    } else {
+      getCityFromSearch(text);
+    }
   };
 
   render() {
@@ -49,21 +50,22 @@ class HomeScreen extends Component {
         <View style={styles.container}>
           <View style={styles.searchContainer}>
 
-            <TextInput
-              width="90%"
-              placeholder="Type something!"
+            <Input
+              containerStyle={{ flex: 6 }}
+              placeholder="Enter city"
               onChangeText={text => this.setState({ text })}
               value={text}
             />
 
             <Button
+              containerStyle={{ flex: 1, justifyContent: 'center' }}
               icon={(
                 <Ionicons
-                  name="md-checkmark-circle"
+                  name="ios-search"
                   size={15}
                   color="white"
                 />
-)}
+              )}
               onPress={this.onPressSearch}
             />
 
@@ -136,7 +138,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     paddingStart: 10,
-    paddingTop: 10,
+    paddingEnd: 10,
   },
   listContainer: {
     flex: 10,

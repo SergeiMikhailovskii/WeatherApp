@@ -1,14 +1,14 @@
 import React from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 
-export default function LinksScreen() {
+export default function MapsScreen() {
   return (
     <ScrollView style={styles.container} />
   );
 }
 
-LinksScreen.navigationOptions = {
-  title: 'Links',
+MapsScreen.navigationOptions = {
+  title: 'Maps',
 };
 
 const styles = StyleSheet.create({
