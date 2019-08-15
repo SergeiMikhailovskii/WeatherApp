@@ -61,7 +61,25 @@ class DetailInfoScreen extends Component {
               </Text>
             </View>
             <View style={styles.textInfo}>
-              <Text>{detailCityInfo.city.population}</Text>
+              <Text style={{
+                fontSize: 50,
+                width: '100%',
+                justifyContent: 'center',
+                textAlign: 'center'
+              }}
+              >
+                {tempList[0]}
+              </Text>
+            </View>
+            <View style={styles.textInfo}>
+              <Text style={{
+                width: '100%',
+                justifyContent: 'center',
+                textAlign: 'center'
+              }}
+              >
+                Population: {detailCityInfo.city.population}
+              </Text>
             </View>
             <View style={{
               height: 200,
@@ -99,7 +117,14 @@ class DetailInfoScreen extends Component {
                     left: 10,
                     right: 10
                   }}
-                  svg={axesSvg}
+                  svg={{
+                    fill: 'black',
+                    fontSize: 8,
+                    fontWeight: 'bold',
+                    rotation: 90,
+                    originY: 30,
+                    y: 5,
+                  }}
                 />
               </View>
             </View>
