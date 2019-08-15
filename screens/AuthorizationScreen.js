@@ -1,15 +1,10 @@
 import React, { Component } from 'react';
 import {
-  Alert,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View
+  Alert, Image, SafeAreaView, StyleSheet, View
 } from 'react-native';
 import * as Facebook from 'expo-facebook';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { Button, Input } from 'react-native-elements';
 
 export default class AuthorizationScreen extends Component {
   constructor(props) {
@@ -39,7 +34,7 @@ export default class AuthorizationScreen extends Component {
       });
       if (type === 'success') {
         const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
-        Alert.alert('Logged in!', `Hi ${(await response.json()).name}!`);
+        Alert.alert('Logged in!', `Hi, ${(await response.json()).name}!`);
         const { navigation } = this.props;
         navigation.navigate('Current');
       } else {
@@ -53,46 +48,49 @@ export default class AuthorizationScreen extends Component {
   render() {
     const { login, password } = this.state;
     return (
-      <SafeAreaView style={styles.container}>
-        <KeyboardAwareScrollView style={styles.container}>
+      <SafeAreaView style={{ flex: 1 }}>
+        <KeyboardAwareScrollView style={{ flex: 1 }}>
           <View style={styles.container}>
+            <Image
+              style={styles.logo}
+              source={require('../assets/images/logo.png')}
+              resizeMode="center"
+            />
+
             <View style={styles.authorization}>
               <View style={styles.textInput}>
-                <TextInput
+                <Input
                   placeholder="Enter login"
                   onChangeText={login => this.setState({ login })}
                   value={login}
-                  autoCapitalize="none"
-                  keyboardType="email-address"
+                  inputStyle="email-address"
+                  label="Login"
                 />
               </View>
 
               <View style={styles.textInput}>
-                <TextInput
+                <Input
                   placeholder="Enter password"
                   onChangeText={password => this.setState({ password })}
                   value={password}
-                  secureTextEntry
+                  autoCapitalize="none"
+                  inputStyle="email-address"
+                  label="Password"
                 />
               </View>
 
-              <TouchableOpacity
-                style={{ paddingTop: 10 }}
+              <Button
+                style={{ marginBottom: 16, marginTop: 16 }}
+                title="Sign In"
+                type="outline"
                 onPress={this.onPressSignIn}
-              >
-                <View>
-                  <Text>Sign In</Text>
-                </View>
-              </TouchableOpacity>
+              />
 
-              <TouchableOpacity
-                style={{ paddingTop: 10 }}
+              <Button
+                style={{ marginBottom: 16 }}
+                title="Facebook Log In"
                 onPress={this.onPressFacebook}
-              >
-                <View>
-                  <Text>Facebook Log In</Text>
-                </View>
-              </TouchableOpacity>
+              />
 
             </View>
           </View>
@@ -109,6 +107,7 @@ AuthorizationScreen.navigationOptions = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    padding: 16,
     backgroundColor: '#fff',
   },
   authorization: {
@@ -116,12 +115,6 @@ const styles = StyleSheet.create({
   },
   textInput: {
     height: 50,
-    paddingTop: 20,
-    paddingStart: 10,
-    paddingEnd: 10,
-    marginStart: 10,
-    marginEnd: 10,
-    borderBottomColor: '#000000',
-    borderBottomWidth: 1,
+    marginBottom: 20,
   },
 });

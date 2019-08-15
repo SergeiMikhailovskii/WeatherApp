@@ -11,8 +11,9 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { Button, Input, ListItem } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { ListItem } from 'react-native-elements';
+import { Ionicons } from '@expo/vector-icons';
 import { listOfCitiesRequest, searchCityRequest } from '../app/actions/fetching_actions';
 
 
@@ -34,79 +35,82 @@ class HomeScreen extends Component {
     getCityFromSearch(text);
   };
 
-
   render() {
-    const { list, text } = this.props;
+    const {
+      list, text, isError, isLoading
+    } = this.props;
 
-    if (this.props.isError) {
+    if (isError) {
       Alert.alert('Error while loading');
     }
 
     return (
-      <SafeAreaView style={styles.container}>
-      <View style={styles.container}>
-        <View style={styles.searchContainer}>
-
-          <TextInput
-            placeholder="Type something!"
-            onChangeText={text => this.setState({ text })}
-            value={text}
-          />
-
-          <TouchableOpacity
-            onPress={this.onPressSearch}
-          >
-
-            <View>
-
-              <Text>Search</Text>
-
-            </View>
-
-          </TouchableOpacity>
-        </View>
-
-        {this.props.isLoading
-          ? (
-            <View style={{ flexDirection: 'row', justifyContent: 'space-around', padding: 10 }}>
-              <ActivityIndicator animating={this.props.isLoading} size="large" color="#0000ff" />
-            </View>
-          )
-          : null
-}
-
+      <SafeAreaView style={{ flex: 1 }}>
         <View style={styles.container}>
-          {list
-            ? (
-              <FlatList
-                data={list}
-                renderItem={({ item }) => (
-                  <ListItem
-                    onPress={() => {
-                      const { navigation } = this.props;
-                      navigation.navigate('Details', {
-                        itemTitle: item.name,
-                      });
-                    }}
-                    roundAvatar
-                    title={item.name}
-                    subtitle={item.weather[0].description}
-                    leftAvatar={{
-                      source: `http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png` && { uri: `http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png` },
-                    }}
-                  />
-                )
+          <View style={styles.searchContainer}>
 
-                      }
-                keyExtractor={(item, index) => index.toString()}
-              />
+            <TextInput
+              width="90%"
+              placeholder="Type something!"
+              onChangeText={text => this.setState({ text })}
+              value={text}
+            />
+
+            <Button
+              icon={(
+                <Ionicons
+                  name="md-checkmark-circle"
+                  size={15}
+                  color="white"
+                />
+)}
+              onPress={this.onPressSearch}
+            />
+
+
+          </View>
+
+          {isLoading
+            ? (
+              <View style={{ flexDirection: 'row', justifyContent: 'space-around', padding: 10 }}>
+                <ActivityIndicator animating={isLoading} size="large" color="#0000ff" />
+              </View>
             )
             : null
+}
+
+          <View style={styles.listContainer}>
+            {list
+              ? (
+                <FlatList
+                  data={list}
+                  renderItem={({ item }) => (
+                    <ListItem
+                      onPress={() => {
+                        const { navigation } = this.props;
+                        navigation.navigate('Details', {
+                          itemTitle: item.name,
+                        });
+                      }}
+                      roundAvatar
+                      title={item.name}
+                      subtitle={item.weather[0].description}
+                      leftAvatar={{
+                        source: `http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png` && { uri: `http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png` },
+                      }}
+                    />
+                  )
+
+                      }
+                  keyExtractor={(item, index) => index.toString()}
+                />
+              )
+              : null
                 }
 
 
+          </View>
         </View>
-      </View>
       </SafeAreaView>
     );
   }
@@ -128,19 +132,17 @@ const styles = StyleSheet.create({
     height: 44,
   },
   searchContainer: {
-    marginTop: 10,
-    paddingStart: 10,
     backgroundColor: '#ff0000',
-    height: 50,
-    width: '100%',
+    flex: 1,
+    flexDirection: 'row',
+    paddingStart: 10,
+    paddingTop: 10,
   },
   listContainer: {
-    flex: 4,
-    backgroundColor: '#ffeb21',
+    flex: 10,
   },
   container: {
     flex: 1,
-    backgroundColor: '#ffeb21',
   },
   developmentModeText: {
     marginBottom: 20,
