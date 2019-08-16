@@ -4,6 +4,14 @@
     "slug": "TestProject",
     "privacy": "public",
     "sdkVersion": "34.0.0",
+    "android": {
+      "package": "com.mikhailovskii.expoweatherapp",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyAroXDta4quN6AynQI-z0VgDYZMZLF9T60"
+        }
+      }
+    },
     "platforms": [
       "ios",
       "android",
