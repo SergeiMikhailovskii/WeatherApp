@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
+import { Alert, StyleSheet } from 'react-native';
 import MapView from 'react-native-maps';
 
 export default class MapsScreen extends Component {
@@ -22,6 +22,12 @@ export default class MapsScreen extends Component {
       }]
     };
   }
+
+  onMapLongPress = (latitude, longitude) => {
+    const { markers } = this.state;
+    markers.push({ title: 'Title', coordinates: { latitude, longitude } });
+    Alert.alert('Added!');
+  };
 
   render() {
     const { markers } = this.state;
