@@ -1,9 +1,10 @@
 import React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
+import MapView from 'react-native-maps';
 
 export default function MapsScreen() {
   return (
-    <ScrollView style={styles.container} />
+    <MapView style={{ flex: 1 }} />
   );
 }
 
