@@ -6,8 +6,8 @@ import { applyMiddleware, compose, createStore } from 'redux';
 import { createLogger } from 'redux-logger';
 import { Provider } from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
-import reducers from './app/reducers';
 import { createStackNavigator } from 'react-navigation';
+import reducers from './app/reducers';
 import HomeScreen from './screens/HomeScreen';
 import DetailsScreen from './screens/DetailInfoScreen';
 
@@ -38,7 +38,7 @@ const RootStack = createStackNavigator(
   }
 );
 
- // const AppContainer = createAppContainer(RootStack);
+// const AppContainer = createAppContainer(RootStack);
 
 
 export default class App extends Component {

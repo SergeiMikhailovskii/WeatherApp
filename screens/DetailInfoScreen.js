@@ -22,17 +22,18 @@ class DetailInfoScreen extends Component {
   render() {
     const { detailCityInfo } = this.props;
     const tempList = [];
+    const dateList = [];
 
     if (detailCityInfo != null) {
-      for (let i = 0; i < detailCityInfo.list.length; i += 1) {
+      for (let i = 0; i < 20; i += 1) {
         tempList.push(detailCityInfo.list[i].main.temp);
+        dateList.push(detailCityInfo.list[i].dt_txt);
       }
-      console.log(tempList, 'TEMP LIST');
     }
 
     const axesSvg = { fontSize: 10, fill: 'grey' };
     const verticalContentInset = { top: 10, bottom: 10 };
-    const xAxisHeight = 30;
+    const xAxisHeight = 110;
 
 
     return (
@@ -89,9 +90,9 @@ class DetailInfoScreen extends Component {
               />
             </View>
             <View style={{
-              height: 200,
+              height: 300,
               padding: 20,
-              flexDirection: 'row'
+              flexDirection: 'row',
             }}
             >
               <YAxis
@@ -119,9 +120,8 @@ class DetailInfoScreen extends Component {
                     height: xAxisHeight
                   }}
                   data={tempList}
-                  formatLabel={(value, index) => index}
+                  formatLabel={(value, index) => dateList[index]}
                   contentInset={{
-                    left: 10,
                     right: 10
                   }}
                   svg={{
