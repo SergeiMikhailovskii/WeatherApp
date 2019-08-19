@@ -3,6 +3,7 @@ import { Image, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import { Grid, LineChart, XAxis, YAxis } from 'react-native-svg-charts';
 import 'react-native-svg';
+import { LinearGradient } from 'expo-linear-gradient';
 import { detailInfoRequest } from '../app/actions/fetching_actions';
 
 
@@ -39,103 +40,112 @@ class DetailInfoScreen extends Component {
     return (
       <SafeAreaView style={{ flex: 1 }}>
         {detailCityInfo ? (
-          <View style={styles.container}>
-            <View style={styles.textInfo}>
-              <Text style={{
-                fontSize: 25,
-                width: '100%',
-                justifyContent: 'center',
-                textAlign: 'center'
-              }}
-              >
-                {detailCityInfo.city.name}
-              </Text>
-            </View>
-            <View style={styles.textInfo}>
-              <Text style={{
-                width: '100%',
-                justifyContent: 'center',
-                textAlign: 'center'
-              }}
-              >
-                {detailCityInfo.city.country}
-              </Text>
-            </View>
-            <View style={styles.textInfo}>
-              <Text style={{
-                fontSize: 50,
-                width: '100%',
-                justifyContent: 'center',
-                textAlign: 'center'
-              }}
-              >
-                {tempList[0]}
-              </Text>
-            </View>
-            <View style={styles.textInfo}>
-              <Text style={{
-                width: '100%',
-                justifyContent: 'center',
-                textAlign: 'center'
-              }}
-              >
-                Population:
-                {' '}
-                {detailCityInfo.city.population}
-              </Text>
-            </View>
-            <View style={{ paddingBottom: 10 }}>
-              <Image
-                source={{ uri: `http://openweathermap.org/img/wn/${detailCityInfo.list[0].weather[0].icon}@2x.png` }}
-              />
-            </View>
-            <View style={{
-              height: 300,
-              padding: 20,
-              flexDirection: 'row',
-            }}
+
+          <View style={{ flex: 1 }}>
+            <LinearGradient
+              colors={['#1263f7', '#2c3e50']}
+              start={{ x: 0, y: 0 }}
+              style={styles.container}
             >
-              <YAxis
-                data={tempList}
-                style={{ marginBottom: xAxisHeight }}
-                contentInset={verticalContentInset}
-                svg={axesSvg}
-              />
-              <View style={{
-                flex: 1,
-                marginLeft: 10
-              }}
-              >
-                <LineChart
-                  style={{ flex: 1 }}
-                  data={tempList}
-                  contentInset={verticalContentInset}
-                  svg={{ stroke: 'rgb(134, 65, 244)' }}
+              <View style={styles.textInfo}>
+                <Text style={{
+                  fontSize: 25,
+                  width: '100%',
+                  justifyContent: 'center',
+                  textAlign: 'center'
+                }}
                 >
-                  <Grid />
-                </LineChart>
-                <XAxis
-                  style={{
-                    marginHorizontal: -10,
-                    height: xAxisHeight
-                  }}
-                  data={tempList}
-                  formatLabel={(value, index) => dateList[index]}
-                  contentInset={{
-                    right: 10
-                  }}
-                  svg={{
-                    fill: 'black',
-                    fontSize: 8,
-                    fontWeight: 'bold',
-                    rotation: 90,
-                    originY: 30,
-                    y: 5,
-                  }}
+                  {detailCityInfo.city.name}
+                </Text>
+              </View>
+              <View style={styles.textInfo}>
+                <Text style={{
+                  width: '100%',
+                  justifyContent: 'center',
+                  textAlign: 'center'
+                }}
+                >
+                  {detailCityInfo.city.country}
+                </Text>
+              </View>
+              <View style={styles.textInfo}>
+                <Text style={{
+                  fontSize: 50,
+                  width: '100%',
+                  justifyContent: 'center',
+                  textAlign: 'center'
+                }}
+                >
+                  {tempList[0]}
+                </Text>
+              </View>
+              <View style={styles.textInfo}>
+                <Text style={{
+                  width: '100%',
+                  justifyContent: 'center',
+                  textAlign: 'center'
+                }}
+                >
+                Population:
+                  {' '}
+                  {detailCityInfo.city.population}
+                </Text>
+              </View>
+              <View style={{ paddingBottom: 10 }}>
+                <Image
+                  source={{ uri: `http://openweathermap.org/img/wn/${detailCityInfo.list[0].weather[0].icon}@2x.png` }}
                 />
               </View>
-            </View>
+              <View style={{
+                height: 300,
+                padding: 20,
+                flexDirection: 'row',
+              }}
+              >
+                <YAxis
+                  data={tempList}
+                  style={{ marginBottom: xAxisHeight }}
+                  contentInset={verticalContentInset}
+                  svg={axesSvg}
+                />
+                <View style={{
+                  flex: 1,
+                  marginLeft: 10
+                }}
+                >
+                  <LineChart
+                    style={{ flex: 1 }}
+                    data={tempList}
+                    contentInset={verticalContentInset}
+                    svg={{ stroke: 'rgb(134, 65, 244)' }}
+                  >
+                    <Grid />
+                  </LineChart>
+                  <XAxis
+                    style={{
+                      marginHorizontal: -10,
+                      height: xAxisHeight
+                    }}
+                    data={tempList}
+                    formatLabel={(value, index) => dateList[index]}
+                    contentInset={{
+                      right: 10
+                    }}
+                    svg={{
+                      fill: 'black',
+                      fontSize: 8,
+                      fontWeight: 'bold',
+                      rotation: 90,
+                      originY: 30,
+                      y: 5,
+                    }}
+                  />
+                </View>
+              </View>
+            </LinearGradient>
+
           </View>
+
         ) : null
         }
       </SafeAreaView>
