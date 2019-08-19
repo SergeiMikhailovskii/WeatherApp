@@ -6,6 +6,8 @@ import {
   Platform,
   SafeAreaView,
   StyleSheet,
+  Switch,
+  Text,
   View,
 } from 'react-native';
 import { Button, Input, ListItem } from 'react-native-elements';
@@ -18,7 +20,7 @@ import { listOfCitiesRequest, searchCityRequest } from '../app/actions/fetching_
 class HomeScreen extends Component {
   constructor(props) {
     super(props);
-    this.state = { text: '', isOpen: false };
+    this.state = { text: '', isOpen: false, switchValue: false };
     this.toggleSideMenu = this.toggleSideMenu.bind(this);
     this.onPressSearch = this.onPressSearch.bind(this);
   }
@@ -38,9 +40,14 @@ class HomeScreen extends Component {
     }
   };
 
+  toggleSwitch = (value) => {
+    this.setState({ switchValue: value });
+  };
+
   toggleSideMenu() {
+    const { isOpen } = this.state;
     this.setState({
-      isOpen: !this.state.isOpen
+      isOpen: !isOpen
     });
   }
 
@@ -49,21 +56,28 @@ class HomeScreen extends Component {
       list, text, isError, isLoading
     } = this.props;
 
+    const {
+      switchValue, isOpen
+    } = this.state;
+
     if (isError) {
       Alert.alert('Error while loading');
     }
 
     const MenuComponent = (
       <View style={{ flex: 1, backgroundColor: '#ededed', paddingTop: 50 }}>
-        <Button onPress={() => { Alert.alert('Clicked'); }}
-        title="Test Button"/>
+        <Text>{switchValue ? 'Temp in Celsius' : 'Temp in Kelvin'}</Text>
+        <Switch
+          onValueChange={this.toggleSwitch}
+          value={switchValue}
+        />
       </View>
     );
 
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <SideMenu
-          isOpen={this.state.isOpen}
+          isOpen={isOpen}
           menu={MenuComponent}
         >
           <View style={styles.container}>

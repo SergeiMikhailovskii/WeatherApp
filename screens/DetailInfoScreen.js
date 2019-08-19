@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { Image, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { Alert, Image, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import { Grid, LineChart, XAxis, YAxis } from 'react-native-svg-charts';
 import 'react-native-svg';
 import { LinearGradient } from 'expo-linear-gradient';
 import { detailInfoRequest } from '../app/actions/fetching_actions';
+import { Button } from 'react-native-elements';
+import SideMenu from 'react-native-side-menu/index';
 
 
 export class DetailInfoScreen extends Component {
@@ -15,15 +17,29 @@ export class DetailInfoScreen extends Component {
   constructor(props) {
     super(props);
     const { navigation, getDetailInfo } = this.props;
-    this.state = { title: navigation.getParam('itemTitle', 'Title') };
+    this.state = { title: navigation.getParam('itemTitle', 'Title'), isOpen: false };
+    this.toggleSideMenu = this.toggleSideMenu.bind(this);
     const { title } = this.state;
     getDetailInfo(title);
+  }
+
+  toggleSideMenu() {
+    this.setState({
+      isOpen: !this.state.isOpen
+    });
   }
 
   render() {
     const { detailCityInfo } = this.props;
     const tempList = [];
     const dateList = [];
+
+    const MenuComponent = (
+      <View style={{ flex: 1, backgroundColor: '#ededed', paddingTop: 50 }}>
+        <Button onPress={() => { Alert.alert('Clicked'); }}
+                title="Test Button"/>
+      </View>
+    );
 
     if (detailCityInfo != null) {
       for (let i = 0; i < 20; i += 1) {
@@ -39,6 +55,10 @@ export class DetailInfoScreen extends Component {
 
     return (
       <SafeAreaView style={{ flex: 1 }}>
+        <SideMenu
+          isOpen={this.state.isOpen}
+          menu={MenuComponent}
+        >
         {detailCityInfo ? (
 
           <View style={{ flex: 1 }}>
@@ -148,6 +168,7 @@ export class DetailInfoScreen extends Component {
 
         ) : null
         }
+        </SideMenu>
       </SafeAreaView>
     );
   }
