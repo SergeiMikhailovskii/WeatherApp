@@ -7,7 +7,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { detailInfoRequest } from '../app/actions/fetching_actions';
 
 
-class DetailInfoScreen extends Component {
+export class DetailInfoScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
     title: navigation.getParam('itemTitle', 'Title'),
   });
