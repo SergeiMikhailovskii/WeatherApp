@@ -36,6 +36,10 @@ class HomeScreen extends Component {
     }
   };
 
+  onPressMenu = () => {
+    Alert.alert('Clicked!');
+  };
+
   render() {
     const {
       list, text, isError, isLoading
@@ -49,7 +53,20 @@ class HomeScreen extends Component {
       <SafeAreaView style={{ flex: 1 }}>
         <Header
           containerStyle={{ height: 50, paddingTop: 5 }}
-          leftComponent={{ icon: 'menu' }}
+          leftComponent={(
+            <Button
+              containerStyle={{ flex: 1, justifyContent: 'center' }}
+              buttonStyle={{ backgroundColor: 'red' }}
+              icon={(
+                <Ionicons
+                  name="ios-menu"
+                  size={15}
+                  color="black"
+                />
+              )}
+              onPress={this.onPressMenu}
+            />
+          )}
           centerComponent={(
             <Input
               containerStyle={{ flex: 6 }}
