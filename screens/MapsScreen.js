@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, StyleSheet } from 'react-native';
+import { Alert, Image, StyleSheet } from 'react-native';
 import MapView from 'react-native-maps';
 
 export default class MapsScreen extends Component {
@@ -30,6 +30,7 @@ export default class MapsScreen extends Component {
   };
 
   render() {
+    const image = require('../assets/images/custom_marker.png');
     const { markers } = this.state;
     return (
       <MapView
@@ -45,7 +46,12 @@ export default class MapsScreen extends Component {
           <MapView.Marker
             coordinate={marker.coordinates}
             title={marker.title}
-          />
+          >
+            <Image
+              source={image}
+              style={{ height: 50, width: 50 }}
+            />
+          </MapView.Marker>
         ))}
       </MapView>
     );

@@ -15,7 +15,13 @@ const config = Platform.select({
 const Current = createStackNavigator(
   {
     Component: HomeScreen,
-    Details: DetailsScreen,
+    Details: {
+      name: 'Details screen',
+      screen: DetailsScreen,
+      navigationOptions: {
+        gesturesEnabled: false,
+      },
+    },
   },
   config
 );
