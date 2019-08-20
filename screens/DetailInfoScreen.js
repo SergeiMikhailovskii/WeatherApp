@@ -125,8 +125,9 @@ export class DetailInfoScreen extends Component {
                     {detailCityInfo.city.population}
                   </Text>
                 </View>
-                <View style={{ paddingBottom: 10, backgroundColor: '#ff0000' }}>
+                <View style={{ paddingBottom: 10, alignItems:'center'}}>
                   <Image
+                    style={{ width: 50, height: 50 }}
                     source={{ uri: `http://openweathermap.org/img/wn/${detailCityInfo.list[0].weather[0].icon}@2x.png` }}
                   />
                 </View>
