@@ -59,11 +59,12 @@ class HomeScreen extends Component {
 
             <Button
               containerStyle={{ flex: 1, justifyContent: 'center' }}
+              buttonStyle={{ backgroundColor: 'red' }}
               icon={(
                 <Ionicons
                   name="ios-search"
                   size={15}
-                  color="white"
+                  color="black"
                 />
               )}
               onPress={this.onPressSearch}
