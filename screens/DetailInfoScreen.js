@@ -8,7 +8,6 @@ import SideMenu from 'react-native-side-menu/index';
 import { detailInfoRequest } from '../app/actions/fetching_actions';
 
 const KELVIN_VALUE = false;
-const CELSIUS_VALUE = true;
 
 export class DetailInfoScreen extends Component {
   static navigationOptions = ({ navigation }) => ({

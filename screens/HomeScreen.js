@@ -6,22 +6,18 @@ import {
   Platform,
   SafeAreaView,
   StyleSheet,
-  Switch,
-  Text,
   View,
 } from 'react-native';
 import { Button, Input, ListItem } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
-import SideMenu from 'react-native-side-menu/index';
 import { listOfCitiesRequest, searchCityRequest } from '../app/actions/fetching_actions';
 
 
 class HomeScreen extends Component {
   constructor(props) {
     super(props);
-    this.state = { text: '', isOpen: false, switchValue: false };
-    this.toggleSideMenu = this.toggleSideMenu.bind(this);
+    this.state = { text: '' };
     this.onPressSearch = this.onPressSearch.bind(this);
   }
 
@@ -40,113 +36,83 @@ class HomeScreen extends Component {
     }
   };
 
-  toggleSwitch = (value) => {
-    this.setState({ switchValue: value });
-  };
-
-  toggleSideMenu() {
-    const { isOpen } = this.state;
-    this.setState({
-      isOpen: !isOpen
-    });
-  }
-
   render() {
     const {
       list, text, isError, isLoading
     } = this.props;
 
-    const {
-      switchValue, isOpen
-    } = this.state;
-
     if (isError) {
       Alert.alert('Error while loading');
     }
 
-    const MenuComponent = (
-      <View style={{ flex: 1, backgroundColor: '#ededed', paddingTop: 50 }}>
-        <Text>{switchValue ? 'Temp in Celsius' : 'Temp in Kelvin'}</Text>
-        <Switch
-          onValueChange={this.toggleSwitch}
-          value={switchValue}
-        />
-      </View>
-    );
-
     return (
       <SafeAreaView style={{ flex: 1 }}>
-        <SideMenu
-          isOpen={isOpen}
-          menu={MenuComponent}
-        >
-          <View style={styles.container}>
-            <View style={styles.searchContainer}>
+        <View style={styles.container}>
+          <View style={styles.searchContainer}>
 
-              <Input
-                containerStyle={{ flex: 6 }}
-                placeholder="Enter city"
-                onChangeText={text => this.setState({ text })}
-                value={text}
-              />
+            <Input
+              containerStyle={{ flex: 6 }}
+              placeholder="Enter city"
+              onChangeText={text => this.setState({ text })}
+              value={text}
+            />
 
-              <Button
-                containerStyle={{ flex: 1, justifyContent: 'center' }}
-                icon={(
-                  <Ionicons
-                    name="ios-search"
-                    size={15}
-                    color="white"
-                  />
+            <Button
+              containerStyle={{ flex: 1, justifyContent: 'center' }}
+              icon={(
+                <Ionicons
+                  name="ios-search"
+                  size={15}
+                  color="white"
+                />
               )}
-                onPress={this.onPressSearch}
-              />
+              onPress={this.onPressSearch}
+            />
 
 
-            </View>
+          </View>
 
-            {isLoading
-              ? (
-                <View style={{ flexDirection: 'row', justifyContent: 'space-around', padding: 10 }}>
-                  <ActivityIndicator animating={isLoading} size="large" color="#0000ff" />
-                </View>
-              )
-              : null
+          {isLoading
+            ? (
+              <View style={{ flexDirection: 'row', justifyContent: 'space-around', padding: 10 }}>
+                <ActivityIndicator animating={isLoading} size="large" color="#0000ff" />
+              </View>
+            )
+            : null
 }
 
-            <View style={styles.listContainer}>
-              {list
-                ? (
-                  <FlatList
-                    data={list}
-                    renderItem={({ item }) => (
-                      <ListItem
-                        onPress={() => {
-                          const { navigation } = this.props;
-                          navigation.navigate('Details', {
-                            itemTitle: item.name,
-                          });
-                        }}
-                        roundAvatar
-                        title={item.name}
-                        subtitle={item.weather[0].description}
-                        leftAvatar={{
-                          source: `http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png` && { uri: `http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png` },
-                        }}
-                      />
-                    )
+          <View style={styles.listContainer}>
+            {list
+              ? (
+                <FlatList
+                  data={list}
+                  renderItem={({ item }) => (
+                    <ListItem
+                      onPress={() => {
+                        const { navigation } = this.props;
+                        navigation.navigate('Details', {
+                          itemTitle: item.name,
+                        });
+                      }}
+                      roundAvatar
+                      title={item.name}
+                      subtitle={item.weather[0].description}
+                      leftAvatar={{
+                        source: `http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png` && { uri: `http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png` },
+                      }}
+                    />
+                  )
 
                       }
-                    keyExtractor={(item, index) => index.toString()}
-                  />
-                )
-                : null
+                  keyExtractor={(item, index) => index.toString()}
+                />
+              )
+              : null
                 }
 
 
-            </View>
           </View>
-        </SideMenu>
+        </View>
       </SafeAreaView>
     );
   }
