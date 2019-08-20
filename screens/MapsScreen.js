@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { Alert, Image, StyleSheet } from 'react-native';
+import { Alert, Image, SafeAreaView, StyleSheet } from 'react-native';
 import MapView from 'react-native-maps';
+import { Button, Header, Input } from 'react-native-elements';
+import { Ionicons } from '@expo/vector-icons';
 
 export default class MapsScreen extends Component {
   constructor(props) {
@@ -33,33 +35,59 @@ export default class MapsScreen extends Component {
     const image = require('../assets/images/custom_marker.png');
     const { markers } = this.state;
     return (
-      <MapView
-        style={{ flex: 1 }}
-        initialRegion={{
-          latitude: 53.8878349,
-          longitude: 27.5428332,
-          latitudeDelta: 0.0122,
-          longitudeDelta: 0.0121,
-        }}
-      >
-        {markers.map(marker => (
-          <MapView.Marker
-            coordinate={marker.coordinates}
-            title={marker.title}
-          >
-            <Image
-              source={image}
-              style={{ height: 50, width: 50 }}
+      <SafeAreaView style={{ flex: 1 }}>
+        <Header
+          containerStyle={{ height: 50, paddingTop: 5 }}
+          leftComponent={{ icon: 'menu' }}
+          centerComponent={(
+            <Input
+              containerStyle={{ flex: 6 }}
+              placeholder="Enter city"
             />
-          </MapView.Marker>
-        ))}
-      </MapView>
+          )}
+          rightComponent={(
+            <Button
+              containerStyle={{ flex: 1, justifyContent: 'center' }}
+              buttonStyle={{ backgroundColor: 'red' }}
+              icon={(
+                <Ionicons
+                  name="ios-search"
+                  size={15}
+                  color="black"
+                />
+              )}
+            />
+          )}
+          backgroundColor="red"
+        />
+        <MapView
+          style={{ flex: 1 }}
+          initialRegion={{
+            latitude: 53.8878349,
+            longitude: 27.5428332,
+            latitudeDelta: 0.0122,
+            longitudeDelta: 0.0121,
+          }}
+        >
+          {markers.map(marker => (
+            <MapView.Marker
+              coordinate={marker.coordinates}
+              title={marker.title}
+            >
+              <Image
+                source={image}
+                style={{ height: 50, width: 50 }}
+              />
+            </MapView.Marker>
+          ))}
+        </MapView>
+      </SafeAreaView>
     );
   }
 }
 
 MapsScreen.navigationOptions = {
-  title: 'Maps',
+  header: null
 };
 
 const styles = StyleSheet.create({
