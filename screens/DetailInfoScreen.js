@@ -12,6 +12,7 @@ const KELVIN_VALUE = false;
 export class DetailInfoScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
     title: navigation.getParam('itemTitle', 'Title'),
+    header: null
   });
 
   constructor(props) {
