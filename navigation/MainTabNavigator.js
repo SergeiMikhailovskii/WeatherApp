@@ -19,9 +19,6 @@ const Current = createStackNavigator(
     Details: {
       name: 'Details screen',
       screen: DetailsScreen,
-      navigationOptions: {
-        gesturesEnabled: false,
-      },
     },
   },
   config
@@ -37,7 +34,7 @@ Current.navigationOptions = ({ navigation }) => {
     tabBarIcon: () => (
       <View>
         <Badge
-          status="success"
+          status="error"
           value="99"
           containerStyle={{ position: 'absolute', top: -4, left: 20 }}
         />

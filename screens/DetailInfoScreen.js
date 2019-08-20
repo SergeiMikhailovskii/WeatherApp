@@ -76,7 +76,7 @@ export class DetailInfoScreen extends Component {
 
             <View style={{ flex: 1 }}>
               <LinearGradient
-                colors={['#f73821', '#ffffff']}
+                colors={['#f00', '#ffffff']}
                 start={{ x: 0, y: 0 }}
                 style={styles.container}
               >
