@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Alert, Image, StyleSheet } from 'react-native';
+import { Alert, Image, SafeAreaView, StyleSheet } from 'react-native';
 import MapView from 'react-native-maps';
+import { Header } from 'react-native-elements';
 
 export default class MapsScreen extends Component {
   constructor(props) {
@@ -33,33 +34,42 @@ export default class MapsScreen extends Component {
     const image = require('../assets/images/custom_marker.png');
     const { markers } = this.state;
     return (
-      <MapView
-        style={{ flex: 1 }}
-        initialRegion={{
-          latitude: 53.8878349,
-          longitude: 27.5428332,
-          latitudeDelta: 0.0122,
-          longitudeDelta: 0.0121,
-        }}
-      >
-        {markers.map(marker => (
-          <MapView.Marker
-            coordinate={marker.coordinates}
-            title={marker.title}
-          >
-            <Image
-              source={image}
-              style={{ height: 50, width: 50 }}
-            />
-          </MapView.Marker>
-        ))}
-      </MapView>
+      <SafeAreaView style={{ flex: 1 }}>
+        <Header
+          containerStyle={{ height: 50, paddingTop: 5 }}
+          leftComponent={{ icon: 'map' }}
+          centerComponent={{ text: 'Maps' }}
+          rightComponent={{ icon: 'map' }}
+          backgroundColor="red"
+        />
+        <MapView
+          style={{ flex: 1 }}
+          initialRegion={{
+            latitude: 53.8878349,
+            longitude: 27.5428332,
+            latitudeDelta: 0.0122,
+            longitudeDelta: 0.0121,
+          }}
+        >
+          {markers.map(marker => (
+            <MapView.Marker
+              coordinate={marker.coordinates}
+              title={marker.title}
+            >
+              <Image
+                source={image}
+                style={{ height: 50, width: 50 }}
+              />
+            </MapView.Marker>
+          ))}
+        </MapView>
+      </SafeAreaView>
     );
   }
 }
 
 MapsScreen.navigationOptions = {
-  title: 'Maps',
+  header: null
 };
 
 const styles = StyleSheet.create({

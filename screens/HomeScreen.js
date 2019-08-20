@@ -8,7 +8,7 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
-import { Button, Input, ListItem } from 'react-native-elements';
+import { Button, Header, Input, ListItem } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import { listOfCitiesRequest, searchCityRequest } from '../app/actions/fetching_actions';
@@ -36,6 +36,10 @@ class HomeScreen extends Component {
     }
   };
 
+  onPressMenu = () => {
+    Alert.alert('Clicked!');
+  };
+
   render() {
     const {
       list, text, isError, isLoading
@@ -47,31 +51,47 @@ class HomeScreen extends Component {
 
     return (
       <SafeAreaView style={{ flex: 1 }}>
-        <View style={styles.container}>
-          <View style={styles.searchContainer}>
-
+        <Header
+          containerStyle={{ height: 50, paddingTop: 5 }}
+          leftComponent={(
+            <Button
+              containerStyle={{ flex: 1, justifyContent: 'center' }}
+              buttonStyle={{ backgroundColor: 'red' }}
+              icon={(
+                <Ionicons
+                  name="ios-menu"
+                  size={15}
+                  color="black"
+                />
+              )}
+              onPress={this.onPressMenu}
+            />
+          )}
+          centerComponent={(
             <Input
               containerStyle={{ flex: 6 }}
               placeholder="Enter city"
               onChangeText={text => this.setState({ text })}
               value={text}
             />
-
+)}
+          rightComponent={(
             <Button
               containerStyle={{ flex: 1, justifyContent: 'center' }}
+              buttonStyle={{ backgroundColor: 'red' }}
               icon={(
                 <Ionicons
                   name="ios-search"
                   size={15}
-                  color="white"
+                  color="black"
                 />
-              )}
+            )}
               onPress={this.onPressSearch}
             />
-
-
-          </View>
-
+)}
+          backgroundColor="red"
+        />
+        <View style={styles.container}>
           {isLoading
             ? (
               <View style={{ flexDirection: 'row', justifyContent: 'space-around', padding: 10 }}>
@@ -82,7 +102,7 @@ class HomeScreen extends Component {
 }
 
           <View style={styles.listContainer}>
-            {list
+            { list
               ? (
                 <FlatList
                   data={list}
