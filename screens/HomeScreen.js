@@ -82,7 +82,7 @@ class HomeScreen extends Component {
 }
 
           <View style={styles.listContainer}>
-            {list
+            { list
               ? (
                 <FlatList
                   data={list}

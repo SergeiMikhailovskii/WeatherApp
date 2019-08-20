@@ -1,6 +1,7 @@
 import React from 'react';
-import { Platform } from 'react-native';
+import { Platform, View } from 'react-native';
 import { createBottomTabNavigator, createStackNavigator } from 'react-navigation';
+import { Badge } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 import HomeScreen from '../screens/HomeScreen';
 import MapsScreen from '../screens/MapsScreen';
@@ -34,7 +35,14 @@ Current.navigationOptions = ({ navigation }) => {
   return {
     tabBarVisible,
     tabBarIcon: () => (
-      <Ionicons name={Platform.OS === 'ios' ? 'ios-cloud' : 'md-cloud'} size={25} color="red" />
+      <View>
+        <Badge
+          status="success"
+          value="99"
+          containerStyle={{ position: 'absolute', top: -4, left: 20 }}
+        />
+        <Ionicons name={Platform.OS === 'ios' ? 'ios-cloud' : 'md-cloud'} size={25} color="red" />
+      </View>
     ),
     tabBarLabel: 'Weather',
   };
