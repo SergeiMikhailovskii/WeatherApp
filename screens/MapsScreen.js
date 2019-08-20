@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Alert, Image, SafeAreaView, StyleSheet } from 'react-native';
 import MapView from 'react-native-maps';
-import { Button, Header, Input } from 'react-native-elements';
-import { Ionicons } from '@expo/vector-icons';
+import { Header } from 'react-native-elements';
 
 export default class MapsScreen extends Component {
   constructor(props) {
@@ -38,26 +37,9 @@ export default class MapsScreen extends Component {
       <SafeAreaView style={{ flex: 1 }}>
         <Header
           containerStyle={{ height: 50, paddingTop: 5 }}
-          leftComponent={{ icon: 'menu' }}
-          centerComponent={(
-            <Input
-              containerStyle={{ flex: 6 }}
-              placeholder="Enter city"
-            />
-          )}
-          rightComponent={(
-            <Button
-              containerStyle={{ flex: 1, justifyContent: 'center' }}
-              buttonStyle={{ backgroundColor: 'red' }}
-              icon={(
-                <Ionicons
-                  name="ios-search"
-                  size={15}
-                  color="black"
-                />
-              )}
-            />
-          )}
+          leftComponent={{ icon: 'map' }}
+          centerComponent={{ text: 'Maps' }}
+          rightComponent={{ icon: 'map' }}
           backgroundColor="red"
         />
         <MapView
