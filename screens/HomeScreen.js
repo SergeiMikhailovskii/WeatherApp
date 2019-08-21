@@ -8,10 +8,11 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
-import { Button, Header, Input, ListItem } from 'react-native-elements';
+import { Button, Header, ListItem } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import { listOfCitiesRequest, searchCityRequest } from '../app/actions/fetching_actions';
+import SearchInputComponent from '../components/SearchInputComponent';
 
 
 class HomeScreen extends Component {
@@ -64,12 +65,7 @@ class HomeScreen extends Component {
             />
           )}
           centerComponent={(
-            <Input
-              containerStyle={{ flex: 6 }}
-              placeholder="Enter city"
-              onChangeText={text => this.setState({ text })}
-              value={text}
-            />
+            <SearchInputComponent />
 )}
           rightComponent={(
             <Button
