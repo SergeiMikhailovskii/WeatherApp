@@ -125,8 +125,6 @@ class HomeScreen extends Component {
               )
               : null
                 }
-
-
           </View>
         </View>
       </SafeAreaView>

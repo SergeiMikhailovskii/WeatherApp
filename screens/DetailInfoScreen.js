@@ -1,38 +1,20 @@
 import React, { Component } from 'react';
-import { Image, SafeAreaView, StyleSheet, Switch, Text, View } from 'react-native';
+import { Image, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import { Grid, LineChart, XAxis, YAxis } from 'react-native-svg-charts';
 import 'react-native-svg';
 import { LinearGradient } from 'expo-linear-gradient';
-import SideMenu from 'react-native-side-menu/index';
 import { detailInfoRequest } from '../app/actions/fetching_actions';
 
 const KELVIN_VALUE = false;
 
 export class DetailInfoScreen extends Component {
-  static navigationOptions = ({ navigation }) => ({
-    title: navigation.getParam('itemTitle', 'Title'),
-    header: null
-  });
-
   constructor(props) {
     super(props);
     const { navigation, getDetailInfo } = this.props;
-    this.state = { title: navigation.getParam('itemTitle', 'Title'), isOpen: false, switchValue: KELVIN_VALUE };
-    this.toggleSideMenu = this.toggleSideMenu.bind(this);
+    this.state = { title: navigation.getParam('itemTitle', 'Title')};
     const { title } = this.state;
     getDetailInfo(title);
-  }
-
-  toggleSwitch = (value) => {
-    this.setState({ switchValue: value });
-  };
-
-  toggleSideMenu() {
-    const { isOpen } = this.state;
-    this.setState({
-      isOpen: !isOpen
-    });
   }
 
   render() {
@@ -41,18 +23,8 @@ export class DetailInfoScreen extends Component {
     const dateList = [];
 
     const {
-      switchValue, isOpen
+      switchValue
     } = this.state;
-
-    const MenuComponent = (
-      <View style={{ flex: 1, backgroundColor: '#ededed', paddingTop: 10 }}>
-        <Text>{switchValue ? 'Temp in Celsius' : 'Temp in Kelvin'}</Text>
-        <Switch
-          onValueChange={this.toggleSwitch}
-          value={switchValue}
-        />
-      </View>
-    );
 
     if (detailCityInfo != null) {
       for (let i = 0; i < 20; i += 1) {
@@ -68,123 +40,118 @@ export class DetailInfoScreen extends Component {
 
     return (
       <SafeAreaView style={{ flex: 1 }}>
-        <SideMenu
-          isOpen={isOpen}
-          menu={MenuComponent}
-        >
-          {detailCityInfo ? (
+        {detailCityInfo ? (
 
-            <View style={{ flex: 1 }}>
-              <LinearGradient
-                colors={['#f00', '#ffffff']}
-                start={{ x: 0, y: 0 }}
-                style={styles.container}
-              >
-                <View style={styles.textInfo}>
-                  <Text style={{
-                    fontSize: 25,
-                    width: '100%',
-                    justifyContent: 'center',
-                    textAlign: 'center'
-                  }}
-                  >
-                    {detailCityInfo.city.name}
-                  </Text>
-                </View>
-                <View style={styles.textInfo}>
-                  <Text style={{
-                    width: '100%',
-                    justifyContent: 'center',
-                    textAlign: 'center'
-                  }}
-                  >
-                    {detailCityInfo.city.country}
-                  </Text>
-                </View>
-                <View style={styles.textInfo}>
-                  <Text style={{
-                    fontSize: 50,
-                    width: '100%',
-                    justifyContent: 'center',
-                    textAlign: 'center'
-                  }}
-                  >
-                    {switchValue === KELVIN_VALUE
-                      ? `${tempList[0].toFixed(2)} K`
-                      : `${(tempList[0] - 273).toFixed(2)} C`}
-                  </Text>
-                </View>
-                <View style={styles.textInfo}>
-                  <Text style={{
-                    width: '100%',
-                    justifyContent: 'center',
-                    textAlign: 'center'
-                  }}
-                  >
-                Population:
-                    {' '}
-                    {detailCityInfo.city.population}
-                  </Text>
-                </View>
-                <View style={{ paddingBottom: 10, alignItems:'center'}}>
-                  <Image
-                    style={{ width: 50, height: 50 }}
-                    source={{ uri: `http://openweathermap.org/img/wn/${detailCityInfo.list[0].weather[0].icon}@2x.png` }}
-                  />
-                </View>
-                <View style={{
-                  height: 300,
-                  padding: 20,
-                  flexDirection: 'row',
+          <View style={{ flex: 1 }}>
+            <LinearGradient
+              colors={['#f00', '#ffffff']}
+              start={{ x: 0, y: 0 }}
+              style={styles.container}
+            >
+              <View style={styles.textInfo}>
+                <Text style={{
+                  fontSize: 25,
+                  width: '100%',
+                  justifyContent: 'center',
+                  textAlign: 'center'
                 }}
                 >
-                  <YAxis
+                  {detailCityInfo.city.name}
+                </Text>
+              </View>
+              <View style={styles.textInfo}>
+                <Text style={{
+                  width: '100%',
+                  justifyContent: 'center',
+                  textAlign: 'center'
+                }}
+                >
+                  {detailCityInfo.city.country}
+                </Text>
+              </View>
+              <View style={styles.textInfo}>
+                <Text style={{
+                  fontSize: 50,
+                  width: '100%',
+                  justifyContent: 'center',
+                  textAlign: 'center'
+                }}
+                >
+                  {switchValue === KELVIN_VALUE
+                    ? `${tempList[0].toFixed(2)} K`
+                    : `${(tempList[0] - 273).toFixed(2)} C`}
+                </Text>
+              </View>
+              <View style={styles.textInfo}>
+                <Text style={{
+                  width: '100%',
+                  justifyContent: 'center',
+                  textAlign: 'center'
+                }}
+                >
+                Population:
+                  {' '}
+                  {detailCityInfo.city.population}
+                </Text>
+              </View>
+              <View style={{ paddingBottom: 10, alignItems: 'center' }}>
+                <Image
+                  style={{ width: 50, height: 50 }}
+                  source={{ uri: `http://openweathermap.org/img/wn/${detailCityInfo.list[0].weather[0].icon}@2x.png` }}
+                />
+              </View>
+              <View style={{
+                height: 300,
+                padding: 20,
+                flexDirection: 'row',
+              }}
+              >
+                <YAxis
+                  data={tempList}
+                  style={{ marginBottom: xAxisHeight }}
+                  contentInset={verticalContentInset}
+                  svg={axesSvg}
+                />
+                <View style={{
+                  flex: 1,
+                  marginLeft: 10
+                }}
+                >
+                  <LineChart
+                    style={{ flex: 1 }}
                     data={tempList}
-                    style={{ marginBottom: xAxisHeight }}
                     contentInset={verticalContentInset}
-                    svg={axesSvg}
-                  />
-                  <View style={{
-                    flex: 1,
-                    marginLeft: 10
-                  }}
+                    svg={{ stroke: 'rgb(134, 65, 244)' }}
                   >
-                    <LineChart
-                      style={{ flex: 1 }}
-                      data={tempList}
-                      contentInset={verticalContentInset}
-                      svg={{ stroke: 'rgb(134, 65, 244)' }}
-                    >
-                      <Grid />
-                    </LineChart>
-                    <XAxis
-                      style={{
-                        marginHorizontal: -10,
-                        height: xAxisHeight
-                      }}
-                      data={tempList}
-                      formatLabel={(value, index) => dateList[index]}
-                      contentInset={{
-                        right: 10
-                      }}
-                      svg={{
-                        fill: 'black',
-                        fontSize: 8,
-                        fontWeight: 'bold',
-                        rotation: 90,
-                        originY: 30,
-                        y: 5,
-                      }}
-                    />
-                  </View>
+                    <Grid />
+                  </LineChart>
+                  <XAxis
+                    style={{
+                      marginHorizontal: -10,
+                      height: xAxisHeight
+                    }}
+                    data={tempList}
+                    formatLabel={(value, index) => dateList[index]}
+                    contentInset={{
+                      right: 10
+                    }}
+                    svg={{
+                      fill: 'black',
+                      fontSize: 8,
+                      fontWeight: 'bold',
+                      rotation: 90,
+                      originY: 30,
+                      y: 5,
+                    }}
+                  />
                 </View>
-              </LinearGradient>
+              </View>
+            </LinearGradient>
 
-            </View>
+          </View>
 
-          ) : null
+        ) : null
         }
-        </SideMenu>
       </SafeAreaView>
     );
   }
