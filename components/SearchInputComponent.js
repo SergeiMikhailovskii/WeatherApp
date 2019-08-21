@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { Button, Input } from 'react-native-elements';
-import { Ionicons } from '@expo/vector-icons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 
 class SearchInputComponent extends Component {
@@ -15,8 +15,8 @@ class SearchInputComponent extends Component {
         <Button
           buttonStyle={{ flex: 1 }}
           icon={(
-            <Ionicons
-              name="Entypo-cross"
+            <MaterialIcons
+              name="clear"
               size={30}
               color="black"
             />
