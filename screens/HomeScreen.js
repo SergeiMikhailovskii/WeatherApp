@@ -36,10 +36,6 @@ class HomeScreen extends Component {
     }
   };
 
-  onPressMenu = () => {
-    Alert.alert('Clicked!');
-  };
-
   render() {
     const {
       list, text, isError, isLoading
@@ -60,11 +56,11 @@ class HomeScreen extends Component {
               icon={(
                 <Ionicons
                   name="ios-menu"
-                  size={15}
+                  size={30}
                   color="black"
                 />
               )}
-              onPress={this.onPressMenu}
+              onPress={() => this.props.navigation.toggleDrawer()}
             />
           )}
           centerComponent={(
@@ -82,7 +78,7 @@ class HomeScreen extends Component {
               icon={(
                 <Ionicons
                   name="ios-search"
-                  size={15}
+                  size={30}
                   color="black"
                 />
             )}
@@ -102,7 +98,7 @@ class HomeScreen extends Component {
 }
 
           <View style={styles.listContainer}>
-            { list
+            { list && list.cod !== '404'
               ? (
                 <FlatList
                   data={list}

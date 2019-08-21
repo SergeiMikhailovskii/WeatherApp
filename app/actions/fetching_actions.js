@@ -47,7 +47,7 @@ export const getCityFromSearch = result => ({
 
 function fetchDetailInfo(city) {
   const query = `http://api.openweathermap.org/data/2.5/forecast?q=${city}&apikey=8df903ce56f6d18245e72f380beb297d`;
-  console.log(query, "QUERY");
+  console.log(query, 'QUERY');
   return fetch(query);
 }
 

@@ -34,11 +34,11 @@ Current.navigationOptions = ({ navigation }) => {
     tabBarIcon: () => (
       <View>
         <Badge
-          status="error"
+          status="primary"
           value="99"
           containerStyle={{ position: 'absolute', top: -4, left: 20 }}
         />
-        <Ionicons name={Platform.OS === 'ios' ? 'ios-cloud' : 'md-cloud'} size={25} color="red" />
+        <Ionicons name={Platform.OS === 'ios' ? 'ios-cloud' : 'md-cloud'} size={25} color="black" />
       </View>
     ),
     tabBarLabel: 'Weather',
@@ -57,7 +57,7 @@ const Maps = createStackNavigator(
 Maps.navigationOptions = {
   tabBarLabel: 'Maps',
   tabBarIcon: () => (
-    <Ionicons name={Platform.OS === 'ios' ? 'ios-map' : 'md-map'} size={25} color="red" />
+    <Ionicons name={Platform.OS === 'ios' ? 'ios-map' : 'md-map'} size={25} color="black" />
   ),
 };
 
@@ -66,6 +66,12 @@ Maps.path = '';
 const tabNavigator = createBottomTabNavigator({
   Current,
   Maps,
+}, {
+  tabBarOptions: {
+    style: {
+      backgroundColor: 'red'
+    }
+  }
 });
 
 tabNavigator.path = '';
