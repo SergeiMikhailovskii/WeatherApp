@@ -12,7 +12,7 @@ export class DetailInfoScreen extends Component {
   constructor(props) {
     super(props);
     const { navigation, getDetailInfo } = this.props;
-    this.state = { title: navigation.getParam('itemTitle', 'Title')};
+    this.state = { title: navigation.getParam('itemTitle', 'Title') };
     const { title } = this.state;
     getDetailInfo(title);
   }
@@ -21,13 +21,14 @@ export class DetailInfoScreen extends Component {
     const { detailCityInfo } = this.props;
     const tempList = [];
     const dateList = [];
+    const LIST_AMOUNT = 10;
 
     const {
       switchValue
     } = this.state;
 
     if (detailCityInfo != null) {
-      for (let i = 0; i < 20; i += 1) {
+      for (let i = 0; i < LIST_AMOUNT; i += 1) {
         tempList.push(detailCityInfo.list[i].main.temp);
         dateList.push(detailCityInfo.list[i].dt_txt);
       }
@@ -128,7 +129,8 @@ export class DetailInfoScreen extends Component {
                   <XAxis
                     style={{
                       marginHorizontal: -10,
-                      height: xAxisHeight
+                      height: xAxisHeight,
+                      backgroundColor: 'red',
                     }}
                     data={tempList}
                     formatLabel={(value, index) => dateList[index]}
@@ -139,7 +141,7 @@ export class DetailInfoScreen extends Component {
                       fill: 'black',
                       fontSize: 8,
                       fontWeight: 'bold',
-                      rotation: 90,
+                      rotation: 70,
                       originY: 30,
                       y: 5,
                     }}
