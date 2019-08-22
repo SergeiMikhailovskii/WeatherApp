@@ -10,6 +10,11 @@ import { detailInfoRequest } from '../app/actions/fetching_actions';
 const KELVIN_VALUE = false;
 
 export class DetailInfoScreen extends Component {
+  static navigationOptions = ({ navigation }) => ({
+    headerStyle: { backgroundColor: '#f00' },
+    headerTintColor: 'black'
+  });
+
   constructor(props) {
     super(props);
     const { navigation, getDetailInfo } = this.props;
