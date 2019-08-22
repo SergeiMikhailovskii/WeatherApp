@@ -27,107 +27,111 @@ class HomeScreen extends Component {
     getCities();
   }
 
-  onPressSearch = async () => {
-    const { getCityFromSearch, getCities } = this.props;
-    const { text } = this.state;
-    if (text === '') {
-      getCities();
-    } else {
-      getCityFromSearch(text);
-    }
-  };
+   onPressSearch = async () => {
+     const { getCityFromSearch, getCities } = this.props;
+     const { text } = this.state;
+     if (text === '') {
+       getCities();
+     } else {
+       getCityFromSearch(text);
+     }
+   };
 
-  render() {
-    const {
-      list, text, isError, isLoading
-    } = this.props;
+   /* onPressSearch = () => {
+    Alert.alert(this.state.cityName);
+  }; */
 
-    console.log(this.list);
+   render() {
+     const {
+       list, isError, isLoading
+     } = this.props;
 
-    if (isError) {
-      Alert.alert('Error while loading');
-    }
+     console.log(this.list);
 
-    return (
-      <SafeAreaView style={{ flex: 1 }}>
-        <Header
-          containerStyle={{ height: 50, paddingTop: 5 }}
-          leftComponent={(
-            <Button
-              containerStyle={{ flex: 1, justifyContent: 'center' }}
-              buttonStyle={{ backgroundColor: 'red' }}
-              icon={(
-                <Ionicons
-                  name="ios-menu"
-                  size={30}
-                  color="black"
-                />
+     if (isError) {
+       Alert.alert('Error while loading');
+     }
+
+     return (
+       <SafeAreaView style={{ flex: 1 }}>
+         <Header
+           containerStyle={{ height: 50, paddingTop: 5 }}
+           leftComponent={(
+             <Button
+               containerStyle={{ flex: 1, justifyContent: 'center' }}
+               buttonStyle={{ backgroundColor: 'red' }}
+               icon={(
+                 <Ionicons
+                   name="ios-menu"
+                   size={30}
+                   color="black"
+                 />
               )}
-              onPress={() => this.props.navigation.toggleDrawer()}
-            />
+               onPress={() => this.props.navigation.toggleDrawer()}
+             />
           )}
-          centerComponent={(
-            <SearchInputComponent />
+           centerComponent={(
+             <SearchInputComponent />
 )}
-          rightComponent={(
-            <Button
-              containerStyle={{ flex: 1, justifyContent: 'center' }}
-              buttonStyle={{ backgroundColor: 'red' }}
-              icon={(
-                <Ionicons
-                  name="ios-search"
-                  size={30}
-                  color="black"
-                />
+           rightComponent={(
+             <Button
+               containerStyle={{ flex: 1, justifyContent: 'center' }}
+               buttonStyle={{ backgroundColor: 'red' }}
+               icon={(
+                 <Ionicons
+                   name="ios-search"
+                   size={30}
+                   color="black"
+                 />
             )}
-              onPress={this.onPressSearch}
-            />
+               onPress={this.onPressSearch}
+             />
 )}
-          backgroundColor="red"
-        />
-        <View style={styles.container}>
-          {isLoading
-            ? (
-              <View style={{ flexDirection: 'row', justifyContent: 'space-around', padding: 10 }}>
-                <ActivityIndicator animating={isLoading} size="large" color="#0000ff" />
-              </View>
-            )
-            : null
+           backgroundColor="red"
+         />
+         <View style={styles.container}>
+           {isLoading
+             ? (
+               <View style={{ flexDirection: 'row', justifyContent: 'space-around', padding: 10 }}>
+                 <ActivityIndicator animating={isLoading} size="large" color="#0000ff" />
+               </View>
+             )
+             : null
 }
 
-          <View style={styles.listContainer}>
-            { list && list.cod !== '404'
-              ? (
-                <FlatList
-                  data={list}
-                  renderItem={({ item }) => (
-                    <ListItem
-                      onPress={() => {
-                        const { navigation } = this.props;
-                        navigation.navigate('Details', {
-                          itemTitle: item.name,
-                        });
-                      }}
-                      roundAvatar
-                      title={item.name}
-                      subtitle={item.weather[0].description}
-                      leftAvatar={{
-                        source: `http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png` && { uri: `http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png` },
-                      }}
-                    />
-                  )
+           <View style={styles.listContainer}>
+             { list && list.cod !== '404'
+               ? (
+                 <FlatList
+                   data={list}
+                   renderItem={({ item }) => (
+                     <ListItem
+                       onPress={() => {
+                         const { navigation } = this.props;
+                         navigation.navigate('Details', {
+                           itemTitle: item.name,
+                         });
+                       }}
+                       roundAvatar
+                       title={item.name}
+                       subtitle={item.weather[0].description}
+                       leftAvatar={{
+                         source: `http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png` && { uri: `http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png` },
+                       }}
+                     />
+                   )
 
                       }
-                  keyExtractor={(item, index) => index.toString()}
-                />
-              )
-              : null
+                   keyExtractor={(item, index) => index.toString()}
+                 />
+               )
+               : null
                 }
-          </View>
-        </View>
-      </SafeAreaView>
-    );
-  }
+           </View>
+         </View>
+       </SafeAreaView>
+     );
+   }
 }
 
 HomeScreen.navigationOptions = {
