@@ -71,7 +71,10 @@ class HomeScreen extends Component {
              />
           )}
            centerComponent={(
-             <SearchInputComponent dataFromParent={this.state.text} />
+             <SearchInputComponent
+               dataFromParent={this.state.text}
+               onInputChange={text => this.setState({ text })}
+             />
 )}
            rightComponent={(
              <Button

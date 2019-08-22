@@ -15,6 +15,7 @@ class SearchInputComponent extends Component {
         <Input
           ref={component => this._textInput = component}
           placeholder="Enter city"
+          onChangeText={this.props.onInputChange}
           value={this.props.dataFromParent}
         />
         <Button
