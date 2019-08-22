@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Image, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import { Grid, LineChart, XAxis, YAxis } from 'react-native-svg-charts';
 import 'react-native-svg';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -131,11 +132,12 @@ export class DetailInfoScreen extends Component {
                       marginHorizontal: -10,
                       height: xAxisHeight,
                       backgroundColor: 'red',
+                      paddingTop: 10
                     }}
                     data={tempList}
-                    formatLabel={(value, index) => dateList[index]}
+                    formatLabel={(value, index) => moment(dateList[index]).format('lll')}
                     contentInset={{
-                      right: 10
+                      right: 25
                     }}
                     svg={{
                       fill: 'black',

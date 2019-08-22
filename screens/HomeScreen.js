@@ -38,8 +38,8 @@ class HomeScreen extends Component {
    };
 
    /* onPressSearch = () => {
-    Alert.alert(this.state.cityName);
-  }; */
+      Alert.alert(this.state.cityName);
+    }; */
 
    render() {
      const {
@@ -71,7 +71,7 @@ class HomeScreen extends Component {
              />
           )}
            centerComponent={(
-             <SearchInputComponent />
+             <SearchInputComponent dataFromParent={this.state.text} />
 )}
            rightComponent={(
              <Button
@@ -100,7 +100,7 @@ class HomeScreen extends Component {
 }
 
            <View style={styles.listContainer}>
-             { list && list.cod !== '404'
+             { list && !isLoading
                ? (
                  <FlatList
                    data={list}
