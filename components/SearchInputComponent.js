@@ -20,7 +20,7 @@ class SearchInputComponent extends Component {
         />
         <Button
           buttonStyle={{ width: 40, height: 40, backgroundColor: 'red' }}
-          onPress={this.clearText}
+          onPress={this.props.onClearPress}
           icon={(
             <MaterialIcons
               name="delete"

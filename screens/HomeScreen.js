@@ -74,6 +74,7 @@ class HomeScreen extends Component {
              <SearchInputComponent
                dataFromParent={this.state.text}
                onInputChange={text => this.setState({ text })}
+               onClearPress={() => this.setState({text: ''})}
              />
 )}
            rightComponent={(
