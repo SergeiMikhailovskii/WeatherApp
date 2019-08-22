@@ -10,7 +10,7 @@ import { detailInfoRequest } from '../app/actions/fetching_actions';
 const KELVIN_VALUE = false;
 
 export class DetailInfoScreen extends Component {
-  static navigationOptions = ({ navigation }) => ({
+  static navigationOptions = () => ({
     headerStyle: { backgroundColor: '#f00' },
     headerTintColor: 'black'
   });
@@ -35,7 +35,7 @@ export class DetailInfoScreen extends Component {
 
     if (detailCityInfo != null) {
       for (let i = 0; i < LIST_AMOUNT; i += 1) {
-        tempList.push(detailCityInfo.list[i].main.temp);
+        tempList.push(detailCityInfo.list[i].main.temp - 273);
         dateList.push(detailCityInfo.list[i].dt_txt);
       }
     }
@@ -85,8 +85,8 @@ export class DetailInfoScreen extends Component {
                 }}
                 >
                   {switchValue === KELVIN_VALUE
-                    ? `${tempList[0].toFixed(2)} K`
-                    : `${(tempList[0] - 273).toFixed(2)} C`}
+                    ? `${(tempList[0] + 273).toFixed(2)} K`
+                    : `${tempList[0].toFixed(2)} C`}
                 </Text>
               </View>
               <View style={styles.textInfo}>

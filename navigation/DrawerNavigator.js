@@ -1,6 +1,8 @@
 import { createAppContainer, createDrawerNavigator } from 'react-navigation';
+import { Dimensions } from 'react-native';
 import MainTabNavigator from './MainTabNavigator';
 import MapsScreen from '../screens/MapsScreen';
+import SideMenu from '../components/SideMenu';
 
 
 const DrawerNavigator = createDrawerNavigator(
@@ -12,7 +14,8 @@ const DrawerNavigator = createDrawerNavigator(
       screen: MapsScreen
     }
   }, {
-    initialRouteName: 'Home'
+    contentComponent: SideMenu,
+    drawerWidth: Dimensions.get('window').width - 120,
   }
 );
 

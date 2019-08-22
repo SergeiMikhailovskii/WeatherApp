@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { SafeAreaView, Switch } from 'react-native';
+import { SafeAreaView, Switch, View } from 'react-native';
 import { Text } from 'react-native-elements';
 
 
@@ -18,13 +18,18 @@ export default class SideMenu extends Component {
   render() {
     const { switchPosition } = this.state;
     return (
-      <SafeAreaView style={{ flex: 1, padding: 16 }}>
-        <Text>Switch to celsius/kelvin</Text>
-        <Switch
-          style={{ marginTop: 20 }}
-          onValueChange={this.toggleSwitch}
-          value={switchPosition}
-        />
+      <SafeAreaView style={{ flex: 1 }}>
+        <View style={{ flex: 1, padding: 16 }}>
+          {switchPosition
+            ? <Text>Switch to Celsius</Text>
+            : <Text>Switch to Kelvin</Text>
+          }
+          <Switch
+            style={{ marginTop: 20 }}
+            onValueChange={this.toggleSwitch}
+            value={switchPosition}
+          />
+        </View>
       </SafeAreaView>
     );
   }
