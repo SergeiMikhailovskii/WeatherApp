@@ -42,6 +42,8 @@ class HomeScreen extends Component {
       list, text, isError, isLoading
     } = this.props;
 
+    console.log(this.list);
+
     if (isError) {
       Alert.alert('Error while loading');
     }
