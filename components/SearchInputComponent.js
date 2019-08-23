@@ -6,16 +6,17 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 class SearchInputComponent extends Component {
   render() {
+    const { onInputChange, dataFromParent, onClearPress } = this.props;
     return (
       <View style={{ flex: 1, flexDirection: 'row' }}>
         <Input
           placeholder="Enter city"
-          onChangeText={this.props.onInputChange}
-          value={this.props.dataFromParent}
+          onChangeText={onInputChange}
+          value={dataFromParent}
         />
         <Button
           buttonStyle={{ width: 40, height: 40, backgroundColor: 'red' }}
-          onPress={this.props.onClearPress}
+          onPress={onClearPress}
           icon={(
             <MaterialIcons
               name="delete"
