@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import { Image, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { Alert, Image, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { Grid, LineChart, XAxis, YAxis } from 'react-native-svg-charts';
 import 'react-native-svg';
 import { LinearGradient } from 'expo-linear-gradient';
 import { detailInfoRequest } from '../app/actions/fetching_actions';
+import DataHandler from '../app/DataHandler';
 
-const KELVIN_VALUE = false;
+const KELVIN_VALUE = 1;
 
 export class DetailInfoScreen extends Component {
   static navigationOptions = () => ({
@@ -23,21 +24,33 @@ export class DetailInfoScreen extends Component {
     getDetailInfo(title);
   }
 
+  componentDidMount() {
+    Alert.alert(DataHandler.getSwitchStatus());
+  }
+
   render() {
     const { detailCityInfo } = this.props;
     const tempList = [];
     const dateList = [];
     const LIST_AMOUNT = 10;
 
-    const {
-      switchValue
-    } = this.state;
-
     if (detailCityInfo != null) {
       for (let i = 0; i < LIST_AMOUNT; i += 1) {
         tempList.push(detailCityInfo.list[i].main.temp - 273);
         dateList.push(detailCityInfo.list[i].dt_txt);
       }
+
+      if (DataHandler.getSwitchStatus() == KELVIN_VALUE){
+        for (let i = 0; i<LIST_AMOUNT;i+=1){
+          tempList.push(detailCityInfo.list[i].main.temp);
+        }
+      }
+      else {
+        for (let i = 0; i<LIST_AMOUNT;i+=1){
+          tempList.push(detailCityInfo.list[i].main.temp-273);
+        }
+      }
+
     }
 
     const axesSvg = { fontSize: 10, fill: 'grey' };
@@ -84,7 +97,7 @@ export class DetailInfoScreen extends Component {
                   textAlign: 'center'
                 }}
                 >
-                  {switchValue === KELVIN_VALUE
+                  {DataHandler.getSwitchStatus() == KELVIN_VALUE
                     ? `${(tempList[0] + 273).toFixed(2)} K`
                     : `${tempList[0].toFixed(2)} C`}
                 </Text>

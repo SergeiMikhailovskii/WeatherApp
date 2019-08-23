@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { SafeAreaView, Switch, View } from 'react-native';
 import { Text } from 'react-native-elements';
+import DataHandler from '../app/DataHandler';
 
 
 export default class SideMenu extends Component {
@@ -13,6 +14,7 @@ export default class SideMenu extends Component {
 
   toggleSwitch = (value) => {
     this.setState({ switchPosition: value });
+    DataHandler.setSwitchStatus(value);
   };
 
   render() {
