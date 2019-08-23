@@ -141,6 +141,7 @@ export class DetailInfoScreen extends Component {
                   style={{ marginBottom: xAxisHeight }}
                   contentInset={verticalContentInset}
                   svg={axesSvg}
+                  formatLabel={value => this.state.switchPosition == KELVIN_VALUE? `${(value).toFixed(0)} K` : `${(value).toFixed(0)} C`}
                 />
                 <View style={{
                   flex: 1,
@@ -159,7 +160,6 @@ export class DetailInfoScreen extends Component {
                     style={{
                       marginHorizontal: -20,
                       height: xAxisHeight,
-                      backgroundColor: 'red',
                     }}
                     data={tempList}
                     formatLabel={(value, index) => `${moment(dateList[index]).format('MM/DD h:mm')}`}
@@ -172,7 +172,7 @@ export class DetailInfoScreen extends Component {
                       fontSize: 8,
                       fontWeight: 'bold',
                       rotation: 70,
-                      originY: 30,
+                      originY: 40,
                       y: 5,
                     }}
                   />
