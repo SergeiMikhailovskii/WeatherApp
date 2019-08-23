@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { SafeAreaView, Switch, View } from 'react-native';
+import { AsyncStorage, SafeAreaView, Switch, View } from 'react-native';
 import { Text } from 'react-native-elements';
-import DataHandler from '../app/DataHandler';
 
 
 export default class SideMenu extends Component {
@@ -10,11 +9,24 @@ export default class SideMenu extends Component {
     this.state = {
       switchPosition: false,
     };
+    this.storeData('0');
   }
+
+  storeData = async (value) => {
+    try {
+      await AsyncStorage.setItem('SWITCH_POSITION', value);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   toggleSwitch = (value) => {
     this.setState({ switchPosition: value });
-    DataHandler.setSwitchStatus(value);
+    if (value == 0){
+      this.storeData('0');
+    } else {
+      this.storeData('1');
+    }
   };
 
   render() {
@@ -23,8 +35,8 @@ export default class SideMenu extends Component {
       <SafeAreaView style={{ flex: 1 }}>
         <View style={{ flex: 1, padding: 16 }}>
           {switchPosition
-            ? <Text>Switch to Celsius</Text>
-            : <Text>Switch to Kelvin</Text>
+            ? <Text>Switch from Kelvin to Celsius</Text>
+            : <Text>Switch from Celsius to Kelvin</Text>
           }
           <Switch
             style={{ marginTop: 20 }}

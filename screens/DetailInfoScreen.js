@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { Alert, Image, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { AsyncStorage, Image, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { Grid, LineChart, XAxis, YAxis } from 'react-native-svg-charts';
 import 'react-native-svg';
 import { LinearGradient } from 'expo-linear-gradient';
 import { detailInfoRequest } from '../app/actions/fetching_actions';
-import DataHandler from '../app/DataHandler';
 
 const KELVIN_VALUE = 1;
 
@@ -19,13 +18,26 @@ export class DetailInfoScreen extends Component {
   constructor(props) {
     super(props);
     const { navigation, getDetailInfo } = this.props;
-    this.state = { title: navigation.getParam('itemTitle', 'Title') };
+    this.state = { title: navigation.getParam('itemTitle', 'Title'), switchPosition: '0' };
     const { title } = this.state;
     getDetailInfo(title);
   }
 
   componentDidMount() {
-    Alert.alert(DataHandler.getSwitchStatus());
+    this.getData();
+  }
+
+  getData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('SWITCH_POSITION');
+      console.log('SWITCH', value);
+      if (value !== null) {
+        this.state.switchPosition = value;
+        console.log("State", this.state.switchPosition);
+      }
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   render() {
@@ -40,17 +52,15 @@ export class DetailInfoScreen extends Component {
         dateList.push(detailCityInfo.list[i].dt_txt);
       }
 
-      if (DataHandler.getSwitchStatus() == KELVIN_VALUE){
-        for (let i = 0; i<LIST_AMOUNT;i+=1){
+      if (this.state.switchPosition == KELVIN_VALUE) {
+        for (let i = 0; i < LIST_AMOUNT; i += 1) {
           tempList.push(detailCityInfo.list[i].main.temp);
         }
-      }
-      else {
-        for (let i = 0; i<LIST_AMOUNT;i+=1){
-          tempList.push(detailCityInfo.list[i].main.temp-273);
+      } else {
+        for (let i = 0; i < LIST_AMOUNT; i += 1) {
+          tempList.push(detailCityInfo.list[i].main.temp - 273);
         }
       }
-
     }
 
     const axesSvg = { fontSize: 10, fill: 'grey' };
@@ -97,7 +107,7 @@ export class DetailInfoScreen extends Component {
                   textAlign: 'center'
                 }}
                 >
-                  {DataHandler.getSwitchStatus() == KELVIN_VALUE
+                  {this.state.switchPosition == KELVIN_VALUE
                     ? `${(tempList[0] + 273).toFixed(2)} K`
                     : `${tempList[0].toFixed(2)} C`}
                 </Text>
@@ -147,17 +157,16 @@ export class DetailInfoScreen extends Component {
                   </LineChart>
                   <XAxis
                     style={{
-                      marginHorizontal: -10,
+                      marginHorizontal: -20,
                       height: xAxisHeight,
                       backgroundColor: 'red',
-                      paddingTop: 10,
-                      paddingEnd: 10
                     }}
                     data={tempList}
-                    formatLabel={(value, index) => moment(dateList[index]).format('lll')}
+                    formatLabel={(value, index) => `${moment(dateList[index]).format('MM/DD h:mm')}`}
                     contentInset={{
                       right: 25
                     }}
+                    numberOfTicks={10}
                     svg={{
                       fill: 'black',
                       fontSize: 8,
