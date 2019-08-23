@@ -5,15 +5,10 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 
 class SearchInputComponent extends Component {
-  clearText = () => {
-    this._textInput.setNativeProps({ text: '' });
-  };
-
   render() {
     return (
       <View style={{ flex: 1, flexDirection: 'row' }}>
         <Input
-          ref={component => this._textInput = component}
           placeholder="Enter city"
           onChangeText={this.props.onInputChange}
           value={this.props.dataFromParent}

@@ -1,7 +1,7 @@
 import { createAppContainer, createDrawerNavigator } from 'react-navigation';
 import { Dimensions } from 'react-native';
 import MainTabNavigator from './MainTabNavigator';
-import MapsScreen from '../screens/MapsScreen';
+import DetailsScreen from '../screens/DetailInfoScreen';
 import SideMenu from '../components/SideMenu';
 
 
@@ -11,7 +11,7 @@ const DrawerNavigator = createDrawerNavigator(
       screen: MainTabNavigator
     },
     Maps: {
-      screen: MapsScreen
+      screen: DetailsScreen
     }
   }, {
     contentComponent: SideMenu,

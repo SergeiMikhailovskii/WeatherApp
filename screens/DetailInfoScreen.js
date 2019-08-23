@@ -137,7 +137,8 @@ export class DetailInfoScreen extends Component {
                       marginHorizontal: -10,
                       height: xAxisHeight,
                       backgroundColor: 'red',
-                      paddingTop: 10
+                      paddingTop: 10,
+                      paddingEnd: 10
                     }}
                     data={tempList}
                     formatLabel={(value, index) => moment(dateList[index]).format('lll')}
