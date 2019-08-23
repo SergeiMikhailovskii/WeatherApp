@@ -1,7 +1,6 @@
 import React from 'react';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
-import AuthorizationScreen from '../screens/AuthorizationScreen';
-import MainTabNavigator from './MainTabNavigator';
+import DrawerNavigator from './DrawerNavigator';
 
 
 export default createAppContainer(
@@ -9,6 +8,7 @@ export default createAppContainer(
     // You could add another route here for authentication.
     // Read more at https://reactnavigation.org/docs/en/auth-flow.html
     // Authorization: AuthorizationScreen,
-    Main: MainTabNavigator,
+    // Main: MainTabNavigator,
+    Drawer: DrawerNavigator,
   })
 );

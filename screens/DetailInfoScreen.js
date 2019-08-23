@@ -1,63 +1,65 @@
 import React, { Component } from 'react';
-import { Image, SafeAreaView, StyleSheet, Switch, Text, View } from 'react-native';
+import { AsyncStorage, Image, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import { Grid, LineChart, XAxis, YAxis } from 'react-native-svg-charts';
 import 'react-native-svg';
 import { LinearGradient } from 'expo-linear-gradient';
-import SideMenu from 'react-native-side-menu/index';
 import { detailInfoRequest } from '../app/actions/fetching_actions';
 
-const KELVIN_VALUE = false;
+const KELVIN_VALUE = 1;
 
 export class DetailInfoScreen extends Component {
-  static navigationOptions = ({ navigation }) => ({
-    title: navigation.getParam('itemTitle', 'Title'),
-    header: null
+  static navigationOptions = () => ({
+    headerStyle: { backgroundColor: '#f00' },
+    headerTintColor: 'black'
   });
 
   constructor(props) {
     super(props);
     const { navigation, getDetailInfo } = this.props;
-    this.state = { title: navigation.getParam('itemTitle', 'Title'), isOpen: false, switchValue: KELVIN_VALUE };
-    this.toggleSideMenu = this.toggleSideMenu.bind(this);
+    this.state = { title: navigation.getParam('itemTitle', 'Title'), switchPosition: '0' };
     const { title } = this.state;
     getDetailInfo(title);
   }
 
-  toggleSwitch = (value) => {
-    this.setState({ switchValue: value });
-  };
+  componentDidMount() {
+    this.getData();
+  }
 
-  toggleSideMenu() {
-    const { isOpen } = this.state;
-    this.setState({
-      isOpen: !isOpen
-    });
+  getData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('SWITCH_POSITION');
+      console.log('SWITCH', value);
+      if (value !== null) {
+        this.state.switchPosition = value;
+        console.log("State", this.state.switchPosition);
+      }
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   render() {
     const { detailCityInfo } = this.props;
     const tempList = [];
     const dateList = [];
-
-    const {
-      switchValue, isOpen
-    } = this.state;
-
-    const MenuComponent = (
-      <View style={{ flex: 1, backgroundColor: '#ededed', paddingTop: 10 }}>
-        <Text>{switchValue ? 'Temp in Celsius' : 'Temp in Kelvin'}</Text>
-        <Switch
-          onValueChange={this.toggleSwitch}
-          value={switchValue}
-        />
-      </View>
-    );
+    const LIST_AMOUNT = 10;
 
     if (detailCityInfo != null) {
-      for (let i = 0; i < 20; i += 1) {
-        tempList.push(detailCityInfo.list[i].main.temp);
+      for (let i = 0; i < LIST_AMOUNT; i += 1) {
+        tempList.push(detailCityInfo.list[i].main.temp - 273);
         dateList.push(detailCityInfo.list[i].dt_txt);
+      }
+
+      if (this.state.switchPosition == KELVIN_VALUE) {
+        for (let i = 0; i < LIST_AMOUNT; i += 1) {
+          tempList.push(detailCityInfo.list[i].main.temp);
+        }
+      } else {
+        for (let i = 0; i < LIST_AMOUNT; i += 1) {
+          tempList.push(detailCityInfo.list[i].main.temp - 273);
+        }
       }
     }
 
@@ -68,123 +70,120 @@ export class DetailInfoScreen extends Component {
 
     return (
       <SafeAreaView style={{ flex: 1 }}>
-        <SideMenu
-          isOpen={isOpen}
-          menu={MenuComponent}
-        >
-          {detailCityInfo ? (
+        {detailCityInfo ? (
 
-            <View style={{ flex: 1 }}>
-              <LinearGradient
-                colors={['#f00', '#ffffff']}
-                start={{ x: 0, y: 0 }}
-                style={styles.container}
-              >
-                <View style={styles.textInfo}>
-                  <Text style={{
-                    fontSize: 25,
-                    width: '100%',
-                    justifyContent: 'center',
-                    textAlign: 'center'
-                  }}
-                  >
-                    {detailCityInfo.city.name}
-                  </Text>
-                </View>
-                <View style={styles.textInfo}>
-                  <Text style={{
-                    width: '100%',
-                    justifyContent: 'center',
-                    textAlign: 'center'
-                  }}
-                  >
-                    {detailCityInfo.city.country}
-                  </Text>
-                </View>
-                <View style={styles.textInfo}>
-                  <Text style={{
-                    fontSize: 50,
-                    width: '100%',
-                    justifyContent: 'center',
-                    textAlign: 'center'
-                  }}
-                  >
-                    {switchValue === KELVIN_VALUE
-                      ? `${tempList[0].toFixed(2)} K`
-                      : `${(tempList[0] - 273).toFixed(2)} C`}
-                  </Text>
-                </View>
-                <View style={styles.textInfo}>
-                  <Text style={{
-                    width: '100%',
-                    justifyContent: 'center',
-                    textAlign: 'center'
-                  }}
-                  >
-                Population:
-                    {' '}
-                    {detailCityInfo.city.population}
-                  </Text>
-                </View>
-                <View style={{ paddingBottom: 10, alignItems:'center'}}>
-                  <Image
-                    style={{ width: 50, height: 50 }}
-                    source={{ uri: `http://openweathermap.org/img/wn/${detailCityInfo.list[0].weather[0].icon}@2x.png` }}
-                  />
-                </View>
-                <View style={{
-                  height: 300,
-                  padding: 20,
-                  flexDirection: 'row',
+          <View style={{ flex: 1 }}>
+            <LinearGradient
+              colors={['#f00', '#ffffff']}
+              start={{ x: 0, y: 0 }}
+              style={styles.container}
+            >
+              <View style={styles.textInfo}>
+                <Text style={{
+                  fontSize: 25,
+                  width: '100%',
+                  justifyContent: 'center',
+                  textAlign: 'center'
                 }}
                 >
-                  <YAxis
+                  {detailCityInfo.city.name}
+                </Text>
+              </View>
+              <View style={styles.textInfo}>
+                <Text style={{
+                  width: '100%',
+                  justifyContent: 'center',
+                  textAlign: 'center'
+                }}
+                >
+                  {detailCityInfo.city.country}
+                </Text>
+              </View>
+              <View style={styles.textInfo}>
+                <Text style={{
+                  fontSize: 50,
+                  width: '100%',
+                  justifyContent: 'center',
+                  textAlign: 'center'
+                }}
+                >
+                  {this.state.switchPosition == KELVIN_VALUE
+                    ? `${(tempList[0] + 273).toFixed(2)} K`
+                    : `${tempList[0].toFixed(2)} C`}
+                </Text>
+              </View>
+              <View style={styles.textInfo}>
+                <Text style={{
+                  width: '100%',
+                  justifyContent: 'center',
+                  textAlign: 'center'
+                }}
+                >
+                Population:
+                  {' '}
+                  {detailCityInfo.city.population}
+                </Text>
+              </View>
+              <View style={{ paddingBottom: 10, alignItems: 'center' }}>
+                <Image
+                  style={{ width: 50, height: 50 }}
+                  source={{ uri: `http://openweathermap.org/img/wn/${detailCityInfo.list[0].weather[0].icon}@2x.png` }}
+                />
+              </View>
+              <View style={{
+                height: 300,
+                padding: 20,
+                flexDirection: 'row',
+              }}
+              >
+                <YAxis
+                  data={tempList}
+                  style={{ marginBottom: xAxisHeight }}
+                  contentInset={verticalContentInset}
+                  svg={axesSvg}
+                  formatLabel={value => this.state.switchPosition == KELVIN_VALUE? `${(value).toFixed(0)} K` : `${(value).toFixed(0)} C`}
+                />
+                <View style={{
+                  flex: 1,
+                  marginLeft: 10
+                }}
+                >
+                  <LineChart
+                    style={{ flex: 1 }}
                     data={tempList}
-                    style={{ marginBottom: xAxisHeight }}
                     contentInset={verticalContentInset}
-                    svg={axesSvg}
-                  />
-                  <View style={{
-                    flex: 1,
-                    marginLeft: 10
-                  }}
+                    svg={{ stroke: 'rgb(134, 65, 244)' }}
                   >
-                    <LineChart
-                      style={{ flex: 1 }}
-                      data={tempList}
-                      contentInset={verticalContentInset}
-                      svg={{ stroke: 'rgb(134, 65, 244)' }}
-                    >
-                      <Grid />
-                    </LineChart>
-                    <XAxis
-                      style={{
-                        marginHorizontal: -10,
-                        height: xAxisHeight
-                      }}
-                      data={tempList}
-                      formatLabel={(value, index) => dateList[index]}
-                      contentInset={{
-                        right: 10
-                      }}
-                      svg={{
-                        fill: 'black',
-                        fontSize: 8,
-                        fontWeight: 'bold',
-                        rotation: 90,
-                        originY: 30,
-                        y: 5,
-                      }}
-                    />
-                  </View>
+                    <Grid />
+                  </LineChart>
+                  <XAxis
+                    style={{
+                      marginHorizontal: -20,
+                      height: xAxisHeight,
+                    }}
+                    data={tempList}
+                    formatLabel={(value, index) => `${moment(dateList[index]).format('MM/DD h:mm')}`}
+                    contentInset={{
+                      right: 25
+                    }}
+                    numberOfTicks={10}
+                    svg={{
+                      fill: 'black',
+                      fontSize: 8,
+                      fontWeight: 'bold',
+                      rotation: 70,
+                      originY: 40,
+                      y: 5,
+                    }}
+                  />
                 </View>
-              </LinearGradient>
+              </View>
+            </LinearGradient>
 
-            </View>
+          </View>
 
-          ) : null
+        ) : null
         }
-        </SideMenu>
       </SafeAreaView>
     );
   }

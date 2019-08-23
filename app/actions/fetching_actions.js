@@ -1,4 +1,4 @@
-import * as Actions from '../constants/action_types';
+import * as Actions from '../constants/fetching_action_types';
 
 function fetchListOfCities() {
   return fetch(`${Actions.BASE_URL}/data/2.5/find?lat=53.9&lon=27.6&cnt=10&appid=8df903ce56f6d18245e72f380beb297d`);
@@ -47,7 +47,7 @@ export const getCityFromSearch = result => ({
 
 function fetchDetailInfo(city) {
   const query = `http://api.openweathermap.org/data/2.5/forecast?q=${city}&apikey=8df903ce56f6d18245e72f380beb297d`;
-  console.log(query, "QUERY");
+  console.log(query, 'QUERY');
   return fetch(query);
 }
 
