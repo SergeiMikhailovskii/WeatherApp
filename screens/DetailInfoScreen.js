@@ -21,7 +21,9 @@ const KELVIN_VALUE = 1;
 
 export class DetailInfoScreen extends Component {
   static navigationOptions = () => ({
-    headerStyle: { backgroundColor: '#f00' },
+    headerStyle: {
+      backgroundColor: '#f00', shadowColor: 'transparent', elevation: 0, borderBottomWidth: 0, shadowOpacity: 0,
+    },
     headerTintColor: 'black'
   });
 
@@ -78,7 +80,7 @@ export class DetailInfoScreen extends Component {
 
     return (
       <SafeAreaView style={{ flex: 1 }}>
-        <View style={{flex: 1}}>
+        <View style={{ flex: 1 }}>
           {this.props.isLoading
             ? (
               <View style={{ flexDirection: 'row', justifyContent: 'space-around', padding: 10 }}>

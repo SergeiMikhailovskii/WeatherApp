@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "TestProject",
-    "slug": "TestProject",
+    "name": "WeatherApp",
+    "slug": "weather-app",
     "privacy": "public",
     "sdkVersion": "34.0.0",
     "android": {
@@ -32,10 +32,12 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.mikhailovskii.expoweatherapp"
     },
     "facebookScheme": "fb886698401722951",
     "facebookAppId": "886698401722951",
-    "facebookDisplayName": "WeatherApp"
+    "facebookDisplayName": "WeatherApp",
+    "description": ""
   }
 }

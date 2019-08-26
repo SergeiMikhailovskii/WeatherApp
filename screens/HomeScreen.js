@@ -49,6 +49,7 @@ class HomeScreen extends Component {
      return (
        <SafeAreaView style={{ flex: 1 }}>
          <Header
+           statusBarProps={{ translucent: true }}
            containerStyle={{ height: 50, paddingTop: 5 }}
            leftComponent={(
              <Button
