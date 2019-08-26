@@ -37,16 +37,10 @@ class HomeScreen extends Component {
      }
    };
 
-   /* onPressSearch = () => {
-      Alert.alert(this.state.cityName);
-    }; */
-
    render() {
      const {
-       list, isError, isLoading
+       list, isError, isLoading, navigation, getCities
      } = this.props;
-
-     console.log(this.list);
 
      if (isError) {
        Alert.alert('Error while loading');
@@ -67,14 +61,17 @@ class HomeScreen extends Component {
                    color="black"
                  />
               )}
-               onPress={() => this.props.navigation.toggleDrawer()}
+               onPress={() => navigation.toggleDrawer()}
              />
           )}
            centerComponent={(
              <SearchInputComponent
                dataFromParent={this.state.text}
                onInputChange={text => this.setState({ text })}
-               onClearPress={() => this.setState({text: ''})}
+               onClearPress={() => {
+                 this.setState({ text: '' });
+                 getCities();
+               }}
              />
 )}
            rightComponent={(
@@ -111,7 +108,6 @@ class HomeScreen extends Component {
                    renderItem={({ item }) => (
                      <ListItem
                        onPress={() => {
-                         const { navigation } = this.props;
                          navigation.navigate('Details', {
                            itemTitle: item.name,
                          });
