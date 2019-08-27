@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Notifications } from 'expo';
+import * as Permissions from 'expo-permissions';
 import {
   ActivityIndicator,
   Alert,
@@ -31,6 +33,12 @@ class HomeScreen extends Component {
   componentDidMount() {
     const { getCities } = this.props;
     getCities();
+    if (this.askPermissions()) {
+      console.log('Permission presents');
+      this.sendNotificationImmediately();
+    } else {
+      console.log('Denied');
+    }
   }
 
    onPressSearch = async () => {
@@ -43,102 +51,120 @@ class HomeScreen extends Component {
      }
    };
 
-   render() {
-     const {
-       list, isError, isLoading, navigation, getCities
-     } = this.props;
+  askPermissions = async () => {
+    const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+    let finalStatus = existingStatus;
+    if (existingStatus !== 'granted') {
+      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+      finalStatus = status;
+    }
+    return finalStatus === 'granted';
+  };
 
-     if (isError) {
-       Alert.alert('Error while loading');
-     }
+  sendNotificationImmediately = async () => {
+    const notificationId = await Notifications.presentLocalNotificationAsync({
+      title: 'This is header',
+      body: 'This is body',
+    });
+    console.log(notificationId);
+  };
 
-     return (
-       <SafeAreaView style={{ flex: 1 }}>
-         <Header
-           statusBarProps={{ translucent: true }}
-           containerStyle={{ height: 50, paddingTop: 5 }}
-           leftComponent={(
-             <Button
-               containerStyle={{ flex: 1, justifyContent: 'center' }}
-               buttonStyle={{ backgroundColor: '#C6D9F6' }}
-               icon={(
-                 <Ionicons
-                   name="ios-menu"
-                   size={30}
-                   color="black"
-                 />
+  render() {
+    const {
+      list, isError, isLoading, navigation, getCities
+    } = this.props;
+
+    if (isError) {
+      Alert.alert('Error while loading');
+    }
+
+    return (
+      <SafeAreaView style={{ flex: 1 }}>
+        <Header
+          statusBarProps={{ translucent: true }}
+          containerStyle={{ height: 50, paddingTop: 5 }}
+          leftComponent={(
+            <Button
+              containerStyle={{ flex: 1, justifyContent: 'center' }}
+              buttonStyle={{ backgroundColor: '#C6D9F6' }}
+              icon={(
+                <Ionicons
+                  name="ios-menu"
+                  size={30}
+                  color="black"
+                />
               )}
-               onPress={() => navigation.toggleDrawer()}
-             />
+              onPress={() => navigation.toggleDrawer()}
+            />
           )}
-           centerComponent={(
-             <SearchInputComponent
-               dataFromParent={this.state.text}
-               onInputChange={text => this.setState({ text })}
-               onClearPress={() => {
-                 this.setState({ text: '' });
-                 getCities();
-               }}
-             />
+          centerComponent={(
+            <SearchInputComponent
+              dataFromParent={this.state.text}
+              onInputChange={text => this.setState({ text })}
+              onClearPress={() => {
+                this.setState({ text: '' });
+                getCities();
+              }}
+            />
 )}
-           rightComponent={(
-             <Button
-               containerStyle={{ flex: 1, justifyContent: 'center' }}
-               buttonStyle={{ backgroundColor: '#C6D9F6' }}
-               icon={(
-                 <Ionicons
-                   name="ios-search"
-                   size={30}
-                   color="black"
-                 />
+          rightComponent={(
+            <Button
+              containerStyle={{ flex: 1, justifyContent: 'center' }}
+              buttonStyle={{ backgroundColor: '#C6D9F6' }}
+              icon={(
+                <Ionicons
+                  name="ios-search"
+                  size={30}
+                  color="black"
+                />
             )}
-               onPress={this.onPressSearch}
-             />
+              onPress={this.onPressSearch}
+            />
 )}
-           backgroundColor="#C6D9F6"
-         />
-         <View style={styles.container}>
-           {isLoading
-             ? (
-               <View style={{ flexDirection: 'row', justifyContent: 'space-around', padding: 10 }}>
-                 <ActivityIndicator animating={isLoading} size="large" color="#C6D9F6" />
-               </View>
-             )
-             : null
+          backgroundColor="#C6D9F6"
+        />
+        <View style={styles.container}>
+          {isLoading
+            ? (
+              <View style={{ flexDirection: 'row', justifyContent: 'space-around', padding: 10 }}>
+                <ActivityIndicator animating={isLoading} size="large" color="#C6D9F6" />
+              </View>
+            )
+            : null
 }
 
-           <View style={styles.listContainer}>
-             { list && !isLoading
-               ? (
-                 <FlatList
-                   data={list}
-                   renderItem={({ item }) => (
-                     <ListItem
-                       onPress={() => {
-                         navigation.navigate('Details', {
-                           itemTitle: item.name,
-                         });
-                       }}
-                       roundAvatar
-                       title={item.name}
-                       subtitle={item.weather[0].description}
-                       leftAvatar={{
-                         source: `http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png` && { uri: `http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png` },
-                       }}
-                     />
-                   )
+          <View style={styles.listContainer}>
+            { list && !isLoading
+              ? (
+                <FlatList
+                  data={list}
+                  renderItem={({ item }) => (
+                    <ListItem
+                      onPress={() => {
+                        navigation.navigate('Details', {
+                          itemTitle: item.name,
+                        });
+                      }}
+                      roundAvatar
+                      title={item.name}
+                      subtitle={item.weather[0].description}
+                      leftAvatar={{
+                        source: `http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png` && { uri: `http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png` },
+                      }}
+                    />
+                  )
 
                       }
-                   keyExtractor={(item, index) => index.toString()}
-                 />
-               )
-               : null
+                  keyExtractor={(item, index) => index.toString()}
+                />
+              )
+              : null
                 }
-           </View>
-         </View>
-       </SafeAreaView>
-     );
-   }
+          </View>
+        </View>
+      </SafeAreaView>
+    );
+  }
 }
 
 HomeScreen.navigationOptions = {
