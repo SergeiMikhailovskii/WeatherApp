@@ -22,7 +22,7 @@ const KELVIN_VALUE = 1;
 export class DetailInfoScreen extends Component {
   static navigationOptions = () => ({
     headerStyle: {
-      backgroundColor: '#f00', shadowColor: 'transparent', elevation: 0, borderBottomWidth: 0, shadowOpacity: 0,
+      backgroundColor: '#C6D9F6', shadowColor: 'transparent', elevation: 0, borderBottomWidth: 0, shadowOpacity: 0,
     },
     headerTintColor: 'black'
   });
@@ -93,7 +93,7 @@ export class DetailInfoScreen extends Component {
 
             <View style={{ flex: 1 }}>
               <LinearGradient
-                colors={['#f00', '#ffffff']}
+                colors={['#C6D9F6', '#ffffff']}
                 start={{ x: 0, y: 0 }}
                 style={styles.container}
               >

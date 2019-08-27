@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   StyleSheet,
   View,
+  NetInfo,
 } from 'react-native';
 import { Button, Header, ListItem } from 'react-native-elements';
 import { connect } from 'react-redux';
@@ -20,6 +21,11 @@ class HomeScreen extends Component {
     super(props);
     this.state = { text: '' };
     this.onPressSearch = this.onPressSearch.bind(this);
+    NetInfo.getConnectionInfo().then((state) => {
+      console.log('Connection type', state.type);
+      console.log('Is connected?', state.isConnected);
+      console.log('Is Internet reachable?', state.isInternetReachable);
+    });
   }
 
   componentDidMount() {
@@ -54,7 +60,7 @@ class HomeScreen extends Component {
            leftComponent={(
              <Button
                containerStyle={{ flex: 1, justifyContent: 'center' }}
-               buttonStyle={{ backgroundColor: 'red' }}
+               buttonStyle={{ backgroundColor: '#C6D9F6' }}
                icon={(
                  <Ionicons
                    name="ios-menu"
@@ -78,7 +84,7 @@ class HomeScreen extends Component {
            rightComponent={(
              <Button
                containerStyle={{ flex: 1, justifyContent: 'center' }}
-               buttonStyle={{ backgroundColor: 'red' }}
+               buttonStyle={{ backgroundColor: '#C6D9F6' }}
                icon={(
                  <Ionicons
                    name="ios-search"
@@ -89,13 +95,13 @@ class HomeScreen extends Component {
                onPress={this.onPressSearch}
              />
 )}
-           backgroundColor="red"
+           backgroundColor="#C6D9F6"
          />
          <View style={styles.container}>
            {isLoading
              ? (
                <View style={{ flexDirection: 'row', justifyContent: 'space-around', padding: 10 }}>
-                 <ActivityIndicator animating={isLoading} size="large" color="#0000ff" />
+                 <ActivityIndicator animating={isLoading} size="large" color="#C6D9F6" />
                </View>
              )
              : null
@@ -151,7 +157,7 @@ const styles = StyleSheet.create({
     height: 44,
   },
   searchContainer: {
-    backgroundColor: '#ff0000',
+    backgroundColor: '#C6D9F6',
     flex: 1,
     flexDirection: 'row',
     paddingStart: 10,

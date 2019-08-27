@@ -15,7 +15,7 @@ class SearchInputComponent extends Component {
           value={dataFromParent}
         />
         <Button
-          buttonStyle={{ width: 40, height: 40, backgroundColor: 'red' }}
+          buttonStyle={{ width: 40, height: 40, backgroundColor: '#C6D9F6' }}
           onPress={onClearPress}
           icon={(
             <MaterialIcons

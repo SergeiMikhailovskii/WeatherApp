@@ -41,7 +41,7 @@ export default class MapsScreen extends Component {
           leftComponent={(
             <Button
               containerStyle={{ flex: 1, justifyContent: 'center' }}
-              buttonStyle={{ backgroundColor: 'red' }}
+              buttonStyle={{ backgroundColor: '#C6D9F6' }}
               icon={(
                 <Ionicons
                   name="ios-menu"
@@ -54,7 +54,7 @@ export default class MapsScreen extends Component {
           )}
           centerComponent={{ text: 'Maps', style: { fontSize: 20 } }}
           rightComponent={{ icon: 'map' }}
-          backgroundColor="red"
+          backgroundColor="#C6D9F6"
         />
         <MapView
           style={{ flex: 1 }}
